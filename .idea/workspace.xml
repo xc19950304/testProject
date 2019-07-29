@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e46743d9-83e6-42d5-a736-4ce851bf3dbf" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/BlockInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImplOrigin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/io/openmessaging/DemoTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/io/openmessaging/DemoTester.java" afterDir="false" />
-    </list>
+    <list default="true" id="e46743d9-83e6-42d5-a736-4ce851bf3dbf" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,8 +15,8 @@
       <file leaf-file-name="DefaultMessageStoreImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+            <state relative-caret-position="105">
+              <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1776#1785#0" expanded="true" />
@@ -135,8 +125,8 @@
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/BlockInfo.java" />
         <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester.java" />
         <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/DemoTester.java" />
-        <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" />
       </list>
     </option>
   </component>
@@ -430,7 +420,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -441,8 +430,8 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30666667" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.6351515" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.48242423" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2732475" />
@@ -818,8 +807,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+        <state relative-caret-position="105">
+          <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1776#1785#0" expanded="true" />
