@@ -1,3 +1,4 @@
+
 package io.openmessaging;
 
 import java.nio.ByteBuffer;
@@ -9,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 //这是评测程序的一个demo版本，其评测逻辑与实际评测程序基本类似，但是比实际评测简单很多
 //该评测程序主要便于选手在本地优化和调试自己的程序
 
-public class DemoTester {
+public class LocalTester {
 
     public static void main(String args[]) throws Exception {
         //评测相关配置
@@ -34,7 +35,7 @@ public class DemoTester {
         MessageStore messageStore = null;
 
         try {
-            Class queueStoreClass = Class.forName("io.openmessaging.DefaultMessageStoreImplOrigin");
+            Class queueStoreClass = Class.forName("io.openmessaging.DefaultMessageStoreImpl");
             messageStore = (MessageStore)queueStoreClass.newInstance();
         } catch (Throwable t) {
             t.printStackTrace();
@@ -114,7 +115,7 @@ public class DemoTester {
             long count;
             while ( (count = counter.getAndIncrement()) < maxMsgNum && System.currentTimeMillis() <= maxTimeStamp) {
                 try {
-                    ByteBuffer buffer = ByteBuffer.allocate(8);
+                    ByteBuffer buffer = ByteBuffer.allocate(34);
                     buffer.putLong(0, count);
                     // 为测试方便, 插入的是有规律的数据, 不是实际测评的情况
                     messageStore.put(new Message(count, count, buffer.array()));
@@ -141,7 +142,7 @@ public class DemoTester {
         private int maxCheckSize;
 
         public MessageChecker(MessageStore messageStore, long maxTimeStamp, int checkTimes, int maxIndex, int maxCheckSize,
-                AtomicLong timesCounter, AtomicLong numCounter) {
+                              AtomicLong timesCounter, AtomicLong numCounter) {
             this.timesCounter = timesCounter;
             this.numCounter = numCounter;
             this.checkTimes = checkTimes;
@@ -152,7 +153,7 @@ public class DemoTester {
         }
 
         private void checkError() {
-            System.out.println("message check error");
+            System.out.println(Thread.currentThread().getName() + " message check error");
             System.exit(-1);
         }
 
@@ -181,12 +182,14 @@ public class DemoTester {
                     Iterator<Message> iter = msgs.iterator();
                     while (iter.hasNext()) {
                         if (index1 > index2) {
+                            System.out.println(Thread.currentThread().getName() + " index1:" + index1 + "  index2:" + index2);
                             checkError();
                         }
 
                         Message msg = iter.next();
                         if (msg.getA() != msg.getT() || msg.getA() != index1 ||
                                 ByteBuffer.wrap(msg.getBody()).getLong() != index1) {
+                            System.out.println(Thread.currentThread().getName() + " t:" + msg.getT() + "  index1:" + index1);
                             checkError();
                         }
 
@@ -195,6 +198,7 @@ public class DemoTester {
                             msg = iter.next();
                             if (msg.getA() != msg.getT() || msg.getA() != index1
                                     || ByteBuffer.wrap(msg.getBody()).getLong() != index1) {
+                                System.out.println(Thread.currentThread().getName() + " t:" + msg.getT() + " index1:" + index1);
                                 checkError();
                             }
                         }
@@ -204,10 +208,12 @@ public class DemoTester {
 
 
                     if (index1 - 1 != index2) {
+                        System.out.println(Thread.currentThread().getName() + " index1:" + index1 + "  index2:" + index2);
                         checkError();
                     }
 
                     numCounter.getAndAdd(msgs.size());
+                    //System.out.println(Thread.currentThread().getName() + " message check finished");
                 } catch (Throwable t) {
                     t.printStackTrace();
                     System.exit(-1);
@@ -228,7 +234,7 @@ public class DemoTester {
         private int maxCheckSize;
 
         public ValueChecker(MessageStore messageStore, long maxTimeStamp, int checkTimes, int maxIndex, int maxCheckSize,
-                AtomicLong timesCounter, AtomicLong numCounter) {
+                            AtomicLong timesCounter, AtomicLong numCounter) {
             this.timesCounter = timesCounter;
             this.numCounter = numCounter;
             this.checkTimes = checkTimes;
@@ -300,5 +306,3 @@ public class DemoTester {
         }
     }
 }
-
-
