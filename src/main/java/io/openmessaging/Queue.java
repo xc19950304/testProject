@@ -1,5 +1,8 @@
 package io.openmessaging;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -10,6 +13,8 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Queue {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Queue.class);
 
     //消息大小
     public final static int MESSAGE_SIZE = 50;
@@ -153,18 +158,18 @@ public class Queue {
             thisBlockFisrtPut = false;
         }
         if (messageBuffer.size() == (MESSAGE_NUMBER + DELAY_NUMBER)) {
-/*            if(queueName.equals("queue1")) {
-                System.out.println(queueName + ":----put end----");
-                System.out.println(queueName + ":-flush begin--buffer_queue_size:" + messageBuffer.size());
-            }*/
+            if(queueName.equals("queue1")) {
+                LOGGER.info(queueName + ":----put end----");
+                LOGGER.info(queueName + ":-flush begin--buffer_queue_size:" + messageBuffer.size());
+            }
             flush();
-/*            if(queueName.equals("queue1")) {
-                System.out.println(queueName + ":----put start----");
-                System.out.println(queueName + ":-flush end--buffer_queue_size:"+messageBuffer.size());
-            }*/
+            if(queueName.equals("queue1")) {
+                LOGGER.info(queueName + ":----put start----");
+                LOGGER.info(queueName + ":-flush end--buffer_queue_size:"+messageBuffer.size());
+            }
         }
-        /*if(queueName.equals("queue1"))
-            System.out.println(queueName+ "-message_T:" + message.getT());*/
+        if(queueName.equals("queue1"))
+            LOGGER.info(queueName+ "-message_T:" + message.getT());
         //currentMessageNumber.getAndIncrement();
         messageBuffer.add(message);
     }
@@ -175,16 +180,16 @@ public class Queue {
     //private boolean firstFlush = true;
     //将队列中20条数据刷到64k的buffer中，做异步flush操作
     private void flush() {
-/*        if(queueName.equals("queue1")) {
-            System.out.println(queueName + ":----flush start-----");
-            System.out.println(queueName + "-buffer_remaining:" + writeBuffer.remaining());
-        }*/
+        if(queueName.equals("queue1")) {
+            LOGGER.info(queueName + ":----flush start-----");
+            LOGGER.info(queueName + "-buffer_remaining:" + writeBuffer.remaining());
+        }
         for (int i = 0; i < MESSAGE_NUMBER; i++) {
             Message message = messageBuffer.poll();
-/*            if(queueName.equals("queue1"))
-                System.out.println(queueName + "-message_T:" + message.getT());
+            if(queueName.equals("queue1"))
+                LOGGER.info(queueName + "-message_T:" + message.getT());
             if(blocks.size() == 115)
-                System.out.println(message.getT() + "----" + message.getA());*/
+                LOGGER.info(message.getT() + "----" + message.getA());
             writeBuffer.putLong(message.getT());
             writeBuffer.putLong(message.getA());
             writeBuffer.put(message.getBody());
@@ -195,10 +200,10 @@ public class Queue {
                 segmentEndT = message.getT();
             }
         }
-/*        if(queueName.equals("queue1")) {
-            System.out.println(queueName + ":----flush end-----");
-            System.out.println(queueName + "-buffer_remaining:" + writeBuffer.remaining());
-        }*/
+        if(queueName.equals("queue1")) {
+            LOGGER.info(queueName + ":----flush end-----");
+            LOGGER.info(queueName + "-buffer_remaining:" + writeBuffer.remaining());
+        }
 
         flushFuture = flushThread.submit(() -> {
             long writePosition = -1L;
@@ -210,15 +215,15 @@ public class Queue {
                     this.writePosition.getAndAdd(MESSAGE_SIZE * FLUSH_MESSAGE_NUMBER);
                     flushBuffer.clear();
 
-                    //System.out.println(" tmin：" + currentBlock.getTmin() + " tmax：" + currentBlock.getTmax() );
+                    //LOGGER.info(" tmin：" + currentBlock.getTmin() + " tmax：" + currentBlock.getTmax() );
 
                     //刷盘更新下一个block初始化参数
                     thisBlockFisrtPut = true;
 /*                    blockIndex++;
                     blockTMin[blockIndex] = segmentStartT;*/
 
-                    //System.out.println("----------flush To Dist------------blockIndex:"+blockIndex + queueName);
-                    //System.out.println("----------flush To Dist------------writePosition:"+writePosition+ queueName);
+                    //LOGGER.info("----------flush To Dist------------blockIndex:"+blockIndex + queueName);
+                    //LOGGER.info("----------flush To Dist------------writePosition:"+writePosition+ queueName);
                 }
                 else
                     currentBlock.setTmax(segmentEndT);
@@ -246,7 +251,7 @@ public class Queue {
     }
 
     public synchronized void getAll(long aMin, long aMax, long tMin, long tMax){
-        System.out.println(queueName);
+        LOGGER.info(queueName);
         int size = blocks.size();
 
         //最后一个block不一定刷盘，且数据存在优先队列(必有)和flush_buffer(可能有)中，单独考虑
@@ -273,11 +278,11 @@ public class Queue {
                 readBuffer.get(body);
                 Message msg = new Message(a,t,body);
 
-               System.out.println("blockId:"+ j + " " +blocks.get(j).getTmin()+ "-"+blocks.get(j).getTmax() +  ",t:" + t );
+               LOGGER.info("blockId:"+ j + " " +blocks.get(j).getTmin()+ "-"+blocks.get(j).getTmax() +  ",t:" + t );
 
             }
         }
-        System.out.println("--------------------flush buffer data-----------------");
+        LOGGER.info("--------------------flush buffer data-----------------");
 
         flushBuffer.flip();
         if (messageNum != 0) {
@@ -287,19 +292,19 @@ public class Queue {
                 long a = flushBuffer.getLong();
                 flushBuffer.get(body);
                 Message msg = new Message(a, t, body);
-                System.out.println("t:" + t );
+                LOGGER.info("t:" + t );
             }
         }
 
 
-        System.out.println("--------------------message buffer data-----------------");
+        LOGGER.info("--------------------message buffer data-----------------");
         java.util.Queue<Message> tempQueue = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
         while (!messageBuffer.isEmpty()) {
             Message msg = messageBuffer.poll();
             tempQueue.offer(msg);
             long a = msg.getA();
             long t = msg.getT();
-            System.out.println("t:" + t );
+            LOGGER.info("t:" + t );
         }
         messageBuffer = tempQueue;
     }
@@ -311,7 +316,7 @@ public class Queue {
         tMin = 538171;
         tMax = 633107;*/
 
-        //System.out.println(Thread.currentThread().getName() + " "+queueName);
+        LOGGER.info(Thread.currentThread().getName() + " "+queueName);
         List<Message> result = new ArrayList<>();
         List<Message> restData = new ArrayList<>();
         int size = blocks.size();
@@ -388,7 +393,7 @@ public class Queue {
     }
         result.addAll(restData);
         /*  for(Message m: result){
-            System.out.println(m.getT());
+            LOGGER.info(m.getT());
         }*/
         return result;
 

@@ -1,5 +1,8 @@
 package io.openmessaging;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
@@ -12,28 +15,30 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class DefaultMessageStoreImpl extends MessageStore {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMessageStoreImpl.class);
+
     private NavigableMap<Long, List<Message>> msgMap = new TreeMap<>();
 
-    private Map<String, Queue> queueMaps  = new HashMap();
+    private Map<String, Queue> queueMaps = new HashMap();
 
-    private int queueSize  = 10;
+    private int queueSize = 10;
 
     private FileChannel channels;
 
     private AtomicLong writePosition = new AtomicLong(0L);
 
     //private String dir = "/Users/xiongchang.xc/race2019/";
+
     private String dir = "/alidata1/race2019/data/";
 
     private Random rand = new Random();
 
     private static Comparator<Message> comparator = (o1, o2) -> (int) (o1.getT() - o2.getT());
 
-    DefaultMessageStoreImpl()
-    {
+    DefaultMessageStoreImpl() {
         RandomAccessFile memoryMappedFile = null;
         try {
-            memoryMappedFile = new RandomAccessFile(dir + "all"  + ".data", "rw");
+            memoryMappedFile = new RandomAccessFile(dir + "all" + ".data", "rw");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -43,7 +48,7 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     @Override
     public void put(Message message) {
-        int queueNumber = rand.nextInt(100)% queueSize;
+        int queueNumber = rand.nextInt(100) % queueSize;
         String queueName = "queue" + queueNumber;
         Queue queue = queueMaps.get(queueName);
         if (queue == null) {
@@ -61,20 +66,17 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     @Override
     public synchronized List<Message> getMessage(long aMin, long aMax, long tMin, long tMax) {
-        List<Message> res = new ArrayList<Message>();
-        for (int i = 0; i < queueSize; i++){
-            List<Message> messageList = new ArrayList<Message>();
+        List<Message> res = new ArrayList<>();
+        for (int i = 0; i < queueSize; i++) {
             String queueName = "queue" + i;
-            messageList = queueMaps.get(queueName).getMessage(aMin, aMax, tMin, tMax);
+            List<Message> messageList = queueMaps.get(queueName).getMessage(aMin, aMax, tMin, tMax);
             res.addAll(messageList);
         }
-        Collections.sort(res,comparator);
+        Collections.sort(res, comparator);
 
-/*
-        System.out.println(Thread.currentThread().getName() + "aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
+        LOGGER.info(Thread.currentThread().getName() + "aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
         if(res != null)
-            System.out.println(Thread.currentThread().getName() + "min = [" + res.get(0).getT() +  "], max = [" + res.get(res.size()-1).getT() + "]");
-*/
+            LOGGER.info(Thread.currentThread().getName() + "min = [" + res.get(0).getT() +  "], max = [" + res.get(res.size()-1).getT() + "]");
 
         return res;
     }
@@ -84,11 +86,11 @@ public class DefaultMessageStoreImpl extends MessageStore {
     public long getAvgValue(long aMin, long aMax, long tMin, long tMax) {
         long sum = 0;
         long count = 0;
-        for (int i = 0; i < queueSize; i++){
+        for (int i = 0; i < queueSize; i++) {
             String queueName = "queue" + i;
             List<Message> messageList = queueMaps.get(queueName).getMessage(aMin, aMax, tMin, tMax);
             int size = messageList.size();
-            for(int j = 0; j < size; j++){
+            for (int j = 0; j < size; j++) {
                 sum += messageList.get(j).getA();
             }
             count += size;

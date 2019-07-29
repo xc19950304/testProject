@@ -1,6 +1,9 @@
 
 package io.openmessaging;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.ByteBuffer;
 import java.util.*;
 
@@ -11,8 +14,10 @@ import java.util.concurrent.atomic.AtomicLong;
 //该评测程序主要便于选手在本地优化和调试自己的程序
 
 public class LocalTester {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocalTester.class);
 
     public static void main(String args[]) throws Exception {
+
         //评测相关配置
         //发送阶段的发送数量，也即发送阶段必须要在规定时间内把这些消息发送完毕方可
         int msgNum  = 1000000;
@@ -153,7 +158,7 @@ public class LocalTester {
         }
 
         private void checkError() {
-            System.out.println(Thread.currentThread().getName() + " message check error");
+            LOGGER.info(Thread.currentThread().getName() + " message check error");
             System.exit(-1);
         }
 
@@ -182,14 +187,14 @@ public class LocalTester {
                     Iterator<Message> iter = msgs.iterator();
                     while (iter.hasNext()) {
                         if (index1 > index2) {
-                            System.out.println(Thread.currentThread().getName() + " index1:" + index1 + "  index2:" + index2);
+                            LOGGER.info(Thread.currentThread().getName() + " index1:" + index1 + "  index2:" + index2);
                             checkError();
                         }
 
                         Message msg = iter.next();
                         if (msg.getA() != msg.getT() || msg.getA() != index1 ||
                                 ByteBuffer.wrap(msg.getBody()).getLong() != index1) {
-                            System.out.println(Thread.currentThread().getName() + " t:" + msg.getT() + "  index1:" + index1);
+                            LOGGER.info(Thread.currentThread().getName() + " t:" + msg.getT() + "  index1:" + index1);
                             checkError();
                         }
 
@@ -198,7 +203,7 @@ public class LocalTester {
                             msg = iter.next();
                             if (msg.getA() != msg.getT() || msg.getA() != index1
                                     || ByteBuffer.wrap(msg.getBody()).getLong() != index1) {
-                                System.out.println(Thread.currentThread().getName() + " t:" + msg.getT() + " index1:" + index1);
+                                LOGGER.info(Thread.currentThread().getName() + " t:" + msg.getT() + " index1:" + index1);
                                 checkError();
                             }
                         }
@@ -208,12 +213,12 @@ public class LocalTester {
 
 
                     if (index1 - 1 != index2) {
-                        System.out.println(Thread.currentThread().getName() + " index1:" + index1 + "  index2:" + index2);
+                        LOGGER.info(Thread.currentThread().getName() + " index1:" + index1 + "  index2:" + index2);
                         checkError();
                     }
 
                     numCounter.getAndAdd(msgs.size());
-                    //System.out.println(Thread.currentThread().getName() + " message check finished");
+                    LOGGER.info(Thread.currentThread().getName() + " message check finished");
                 } catch (Throwable t) {
                     t.printStackTrace();
                     System.exit(-1);
