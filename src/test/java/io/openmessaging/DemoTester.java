@@ -1,7 +1,5 @@
 package io.openmessaging;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -13,7 +11,6 @@ import java.util.concurrent.atomic.AtomicLong;
 //该评测程序主要便于选手在本地优化和调试自己的程序
 
 public class DemoTester {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DemoTester.class);
     public static void main(String args[]) throws Exception {
         //评测相关配置
         //发送阶段的发送数量，也即发送阶段必须要在规定时间内把这些消息发送完毕方可
@@ -155,7 +152,7 @@ public class DemoTester {
         }
 
         private void checkError() {
-            LOGGER.info("message check error");
+            System.out.println("message check error");
             System.exit(-1);
         }
 

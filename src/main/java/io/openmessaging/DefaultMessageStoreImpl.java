@@ -1,8 +1,5 @@
 package io.openmessaging;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
@@ -14,8 +11,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * 实际提交时，请维持包名和类名不变，把方法实现修改为自己的内容；
  */
 public class DefaultMessageStoreImpl extends MessageStore {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMessageStoreImpl.class);
 
     private NavigableMap<Long, List<Message>> msgMap = new TreeMap<>();
 
@@ -73,10 +68,9 @@ public class DefaultMessageStoreImpl extends MessageStore {
             res.addAll(messageList);
         }
         Collections.sort(res, comparator);
-
-        LOGGER.info(Thread.currentThread().getName() + "aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
+        System.out.println(Thread.currentThread().getName() + "aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
         if(res != null)
-            LOGGER.info(Thread.currentThread().getName() + "min = [" + res.get(0).getT() +  "], max = [" + res.get(res.size()-1).getT() + "]");
+            System.out.println(Thread.currentThread().getName() + "min = [" + res.get(0).getT() +  "], max = [" + res.get(res.size()-1).getT() + "]");
 
         return res;
     }
