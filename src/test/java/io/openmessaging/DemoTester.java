@@ -153,7 +153,7 @@ public class DemoTester {
 
         private void checkError() {
             System.out.println("message check error");
-            System.exit(-1);
+            //System.exit(-1);
         }
 
         @Override

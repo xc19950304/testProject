@@ -214,7 +214,7 @@ public class LocalTester {
                     }
 
                     numCounter.getAndAdd(msgs.size());
-                    System.out.println(Thread.currentThread().getName() + " message check finished");
+                    //System.out.println(Thread.currentThread().getName() + " message check finished");
                 } catch (Throwable t) {
                     t.printStackTrace();
                     System.exit(-1);
