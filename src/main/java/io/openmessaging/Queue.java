@@ -360,14 +360,16 @@ public class Queue {
 
         //处理已刷盘数据
         //System.out.println("[Queue] " + queueName +" get ssd disk data rest data");
-        int startBlock = size-1;
+        int startBlock = size - 1;
         int endBlock = 0;
-        for (int i = 0; i < size-1; i++) {
+        for (int i = 0; i < size - 1; i++) {
             if (i == 0 && tMin <= blocks.get(i).getTmax()) {
                 startBlock = i;
                 break;
             } else if (tMin > blocks.get(i).getTmax() && tMin <= blocks.get(i + 1).getTmax()) {
                 startBlock = i + 1;
+                System.out.println("[Queue] " + queueName + " size:"+ size +" tMin:" + tMin
+                        +" startBlock:" + startBlock + " t:["+ blocks.get(startBlock).getTmin()+","+blocks.get(startBlock).getTmax() +"]");
                 break;
             }
         }
@@ -375,8 +377,10 @@ public class Queue {
             if (i == size - 1 && tMax >= blocks.get(i).getTmin()) {
                 endBlock = i;
                 break;
-            } else if (tMax < blocks.get(i).getTmin() && tMax >= blocks.get(i-1).getTmin()) {
-                endBlock = i-1;
+            } else if (tMax < blocks.get(i).getTmin() && tMax >= blocks.get(i - 1).getTmin()) {
+                endBlock = i - 1;
+                System.out.println("[Queue] " + queueName  + " size:"+ size + " tMax:" + tMax
+                        +" endBlock:" + endBlock + " t:["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");
                 break;
             }
         }
