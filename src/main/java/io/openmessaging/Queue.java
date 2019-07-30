@@ -155,7 +155,7 @@ public class Queue {
             blocks.add(currentBlock);
             //blockTMin[++blockIndex] = segmentStartT;
             thisBlockFisrtPut = false;
-            System.out.println(queueName + " block " + (blocks.size()) + " put begin" );
+            //System.out.println(queueName + " block " + (blocks.size()) + " put begin" );
         }
         if (messageBuffer.size() == (MESSAGE_NUMBER + DELAY_NUMBER)) {
 /*            if(queueName.equals("queue1")) {
@@ -210,7 +210,7 @@ public class Queue {
             long writePosition = -1L;
             try {
                 if (flushBuffer.remaining() < MESSAGE_SIZE * MESSAGE_NUMBER) {
-                    System.out.println(queueName + " block " + (blocks.size()) + " put finished  and  tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax()   );
+                    //System.out.println(queueName + " block " + (blocks.size()) + " put finished  and  tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax()   );
 
                     flushBuffer.flip();
                     writePosition = this.writePosition.get();//获取刷块时的物理地址
@@ -320,7 +320,7 @@ public class Queue {
         tMin = 538171;
         tMax = 633107;*/
         queueLock.lock();
-        //System.out.println("[Queue] " + queueName + " getMessage begin ");
+        System.out.println("[Queue] " + queueName + " getMessage begin ");
         List<Message> result = new ArrayList<>();
         List<Message> restData = new ArrayList<>();
         int size = blocks.size();
