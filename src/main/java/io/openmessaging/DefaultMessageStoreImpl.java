@@ -93,7 +93,7 @@ public class DefaultMessageStoreImpl extends MessageStore {
         Collections.sort(res, comparator);
         System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + "request end");
         System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + " aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
-        if (res != null &&  )
+        if (res != null && res.size() > 0)
             System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " min = [" + res.get(0).getT() + "], max = [" + res.get(res.size() - 1).getT() + "]");
         return res;
     }
