@@ -18,13 +18,13 @@ public class Queue {
     public final static int MESSAGE_SIZE = 50;
 
     //每个读写缓冲区的消息个数
-    public final static int MESSAGE_NUMBER = 100;
+    public final static int MESSAGE_NUMBER = 10;
 
     //Block对应的消息总数
-    public final static int FLUSH_MESSAGE_NUMBER = MESSAGE_NUMBER * 13;//65000(50*1300)
+    public final static int FLUSH_MESSAGE_NUMBER = MESSAGE_NUMBER * 130;//65000(50*1300)
 
     //每个读写缓冲区的延迟消息个数
-    public final static int DELAY_NUMBER = MESSAGE_NUMBER * 10;//非常重要，用于保证每个块间的延迟性;
+    public final static int DELAY_NUMBER = MESSAGE_NUMBER * 100;//非常重要，用于保证每个块间的延迟性;
 
     //当前Queue对应的块个数，每个块64k-1310条消息,有BLOCK_SIZE个块
     public final static int BLOCK_SIZE = 50000;
@@ -381,7 +381,7 @@ public class Queue {
             }
         }
         System.out.println("[Queue] " + queueName + " disk data filter begin"
-                +" startBlock:" + startBlock + " t:["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]"
+                +" startBlock:" + startBlock + " t:["+ blocks.get(startBlock).getTmin()+","+blocks.get(startBlock).getTmax() +"]"
                 + " endBlock:" + endBlock + "["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");
         for (int j = startBlock; j <= endBlock; j++) {
             readBuffer.clear();
@@ -401,14 +401,14 @@ public class Queue {
                     continue;
                 if (a >= aMin && a <= aMax)
                     result.add(msg);
-                }
-    }
-    if(result != null && result.size() > 0)
-        System.out.println("[Queue] " + queueName + " disk data filter end"
-                + " t:["+ result.get(0).getT()+","+result.get(result.size()-1).getT() +"]"
-                + " a:["+ result.get(0).getA()+","+result.get(result.size()-1).getA() +"]");
+            }
+        }
+        if (result != null && result.size() > 0)
+            System.out.println("[Queue] " + queueName + " disk data filter end"
+                    + " t:[" + result.get(0).getT() + "," + result.get(result.size() - 1).getT() + "]"
+                    + " a:[" + result.get(0).getA() + "," + result.get(result.size() - 1).getA() + "]");
         else
-        System.out.println("[Queue] " + queueName + " disk data filter end" + " null");
+            System.out.println("[Queue] " + queueName + " disk data filter end" + " null");
         //System.out.println("[Queue] " + queueName +" ,the length of ssd data is " + result.size());
         result.addAll(restData);
         //System.out.println("[Queue] " + queueName +" ,the length of this queue data is " + result.size());

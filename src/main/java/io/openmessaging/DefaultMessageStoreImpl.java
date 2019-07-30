@@ -16,7 +16,7 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     private Map<String, Queue> queueMaps = new HashMap();
 
-    private int queueSize = 10;
+    private int queueSize = 100;
 
     private FileChannel channels;
 
