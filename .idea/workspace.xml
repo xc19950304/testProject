@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e46743d9-83e6-42d5-a736-4ce851bf3dbf" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" afterDir="false" />
-    </list>
+    <list default="true" id="e46743d9-83e6-42d5-a736-4ce851bf3dbf" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,8 +27,8 @@
       <file leaf-file-name="Queue.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="370" column="80" selection-start-line="370" selection-start-column="80" selection-end-line="370" selection-end-column="80" />
+            <state relative-caret-position="376">
+              <caret line="402" column="46" lean-forward="true" selection-start-line="376" selection-start-column="33" selection-end-line="376" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2124#2135#0" expanded="true" />
@@ -443,7 +441,7 @@
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.62666667" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.12142857" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.18" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25178826" />
@@ -485,7 +483,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java</url>
-          <line>415</line>
+          <line>416</line>
           <properties />
           <option name="timeStamp" value="97" />
         </line-breakpoint>
@@ -819,8 +817,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="370" column="80" selection-start-line="370" selection-start-column="80" selection-end-line="370" selection-end-column="80" />
+        <state relative-caret-position="376">
+          <caret line="402" column="46" lean-forward="true" selection-start-line="376" selection-start-column="33" selection-end-line="376" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2124#2135#0" expanded="true" />
