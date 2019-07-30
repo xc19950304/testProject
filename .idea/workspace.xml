@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e46743d9-83e6-42d5-a736-4ce851bf3dbf" name="Default" comment="" />
+    <list default="true" id="e46743d9-83e6-42d5-a736-4ce851bf3dbf" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,8 +19,8 @@
       <file leaf-file-name="DefaultMessageStoreImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="385">
-              <caret line="89" column="72" selection-start-line="89" selection-start-column="72" selection-end-line="89" selection-end-column="72" />
+            <state relative-caret-position="63">
+              <caret line="53" selection-start-line="53" selection-end-line="53" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -27,14 +31,14 @@
       <file leaf-file-name="Queue.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="402" column="46" lean-forward="true" selection-start-line="376" selection-start-column="33" selection-end-line="376" selection-end-column="37" />
+            <state relative-caret-position="523">
+              <caret line="43" column="122" selection-start-line="43" selection-start-column="122" selection-end-line="43" selection-end-column="122" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2124#2135#0" expanded="true" />
-                <element signature="method#flush#0;class#Queue#0" />
                 <element signature="method#getAll#0;class#Queue#0" />
                 <element signature="e#12377#12386#0" expanded="true" />
+                <element signature="e#13705#13714#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -43,8 +47,8 @@
       <file leaf-file-name="LocalTester.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret lean-forward="true" />
+            <state relative-caret-position="86">
+              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -75,9 +79,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>queueSize</find>
-      <find>LOGGER.info</find>
-      <find>LOGGER</find>
       <find>System.out.println</find>
       <find>137998</find>
       <find>time</find>
@@ -104,6 +105,9 @@
       <find>queue3</find>
       <find>message</find>
       <find>getMessage begin</find>
+      <find>currentBlock</find>
+      <find>messageBuffer</find>
+      <find>lastBlockTmax</find>
       <find>res</find>
     </findStrings>
     <replaceStrings>
@@ -440,8 +444,8 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.62666667" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.18" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36142856" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.37428573" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25178826" />
@@ -483,18 +487,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java</url>
-          <line>416</line>
+          <line>438</line>
           <properties />
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java</url>
-          <line>321</line>
+          <line>331</line>
           <properties />
           <option name="timeStamp" value="102" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="104" />
+      <option name="time" value="105" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -785,16 +789,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/io/openmessaging/DemoTester.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="539">
@@ -807,8 +801,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="89" column="72" selection-start-line="89" selection-start-column="72" selection-end-line="89" selection-end-column="72" />
+        <state relative-caret-position="63">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -817,14 +821,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="402" column="46" lean-forward="true" selection-start-line="376" selection-start-column="33" selection-end-line="376" selection-end-column="37" />
+        <state relative-caret-position="523">
+          <caret line="43" column="122" selection-start-line="43" selection-start-column="122" selection-end-line="43" selection-end-column="122" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2124#2135#0" expanded="true" />
-            <element signature="method#flush#0;class#Queue#0" />
             <element signature="method#getAll#0;class#Queue#0" />
             <element signature="e#12377#12386#0" expanded="true" />
+            <element signature="e#13705#13714#0" expanded="true" />
           </folding>
         </state>
       </provider>
