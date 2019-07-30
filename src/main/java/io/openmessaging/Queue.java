@@ -315,19 +315,19 @@ public class Queue {
     //同一时刻只有
     public List<Message> getMessage(long aMin, long aMax, long tMin, long tMax) {
 
-/*        aMin = 438175;
-        aMax = 538175;
-        tMin = 538171;
-        tMax = 633107;*/
+/*      aMin = 400000;
+        aMax = 500000;
+        tMin = 600000;
+        tMax = 700000;*/
         queueLock.lock();
-        System.out.println("[Queue] " + queueName + " getMessage begin ");
+        //System.out.println("[Queue] " + queueName + " getMessage begin ");
         List<Message> result = new ArrayList<>();
         List<Message> restData = new ArrayList<>();
         int size = blocks.size();
 
         //最后一个block不一定刷盘，且数据存在优先队列(必有)和flush_buffer(可能有)中，单独考虑
         //处理flush_buffer
-        System.out.println("[Queue] " + queueName +" get flushBuffer rest data");
+        //System.out.println("[Queue] " + queueName +" get flushBuffer rest data");
         flushBuffer.flip();
         int messageNum = flushBuffer.remaining() / MESSAGE_SIZE;
         if (messageNum != 0) {
@@ -342,10 +342,10 @@ public class Queue {
             }
             size = size - 1;
         }
-        System.out.println("[Queue] " + queueName +" the length of flushBuffer is " + restData.size());
+        //System.out.println("[Queue] " + queueName +" the length of flushBuffer is " + restData.size());
 
         //处理queue_buffer
-        System.out.println("[Queue] " + queueName +" get priorityQueue data rest data");
+        //System.out.println("[Queue] " + queueName +" get priorityQueue data rest data");
         java.util.Queue<Message> tempQueue = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
         while (!messageBuffer.isEmpty()) {
             Message msg = messageBuffer.poll();
@@ -356,10 +356,10 @@ public class Queue {
                 restData.add(msg);
         }
         messageBuffer = tempQueue;
-        System.out.println("[Queue] " + queueName +" the length of priorityQueue and flushBuffer is " + restData.size());
+        //System.out.println("[Queue] " + queueName +" the length of priorityQueue and flushBuffer is " + restData.size());
 
         //处理已刷盘数据
-        System.out.println("[Queue] " + queueName +" get ssd disk data rest data");
+        //System.out.println("[Queue] " + queueName +" get ssd disk data rest data");
         int startBlock = size-1;
         int endBlock = 0;
         for (int i = 0; i < size-1; i++) {
@@ -380,6 +380,9 @@ public class Queue {
                 break;
             }
         }
+        System.out.println("[Queue] " + queueName + " disk data filter begin"
+                +" startBlock:" + startBlock + " t:["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]"
+                + " endBlock:" + endBlock + "["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");
         for (int j = startBlock; j <= endBlock; j++) {
             readBuffer.clear();
             try {
@@ -400,9 +403,15 @@ public class Queue {
                     result.add(msg);
                 }
     }
-        System.out.println("[Queue] " + queueName +" ,the length of ssd data is " + result.size());
+    if(result != null && result.size() > 0)
+        System.out.println("[Queue] " + queueName + " disk data filter end"
+                + " t:["+ result.get(0).getT()+","+result.get(result.size()-1).getT() +"]"
+                + " a:["+ result.get(0).getA()+","+result.get(result.size()-1).getA() +"]");
+        else
+        System.out.println("[Queue] " + queueName + " disk data filter end" + " null");
+        //System.out.println("[Queue] " + queueName +" ,the length of ssd data is " + result.size());
         result.addAll(restData);
-        System.out.println("[Queue] " + queueName +" ,the length of this queue data is " + result.size());
+        //System.out.println("[Queue] " + queueName +" ,the length of this queue data is " + result.size());
         queueLock.unlock();
         //System.out.println("[Queue] " + queueName + " getMessage finished ");
         /*  for(Message m: result){
