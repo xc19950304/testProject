@@ -417,10 +417,11 @@ public class Queue {
                 +" startBlock:" + startBlock + " t:["+ blocks.get(startBlock).getTmin()+","+blocks.get(startBlock).getTmax() +"]"
                 + " endBlock:" + endBlock + "["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");*/
         for (int j = 0; j <= size - 1; j++) {
-/*            long blockTmin = blocks.get(j).getTmin();
+            long blockTmin = blocks.get(j).getTmin();
             long blockTmax = blocks.get(j).getTmax();
             if(blockTmin > tMax || blockTmax < tMin)
-                continue;*/
+                continue;
+
             readBuffer.clear();
             try {
                 channel.read(readBuffer, blocks.get(j).getStartOffset());
