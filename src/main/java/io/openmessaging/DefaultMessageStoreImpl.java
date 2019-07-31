@@ -82,7 +82,7 @@ public class DefaultMessageStoreImpl extends MessageStore {
         for(int i=0;i<queueSize;i++){
             queueRandRange.add(i);
         }*/
-        aMin = 554702;aMax = 554802;tMin = 639549;tMax = 640016;
+        /*aMin = 554702;aMax = 554802;tMin = 639549;tMax = 640016;*/
         System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " request begin");
         for (int i = 0; i < queueSize; i++) {
             String queueName = "queue" + i;

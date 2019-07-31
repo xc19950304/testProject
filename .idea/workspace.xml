@@ -15,8 +15,8 @@
       <file leaf-file-name="DefaultMessageStoreImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-324">
-              <caret line="84" column="49" selection-start-line="84" selection-start-column="49" selection-end-line="84" selection-end-column="49" />
+            <state relative-caret-position="262">
+              <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -171,9 +171,9 @@
         <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester1.java" />
         <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester.java" />
         <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/DemoTester.java" />
-        <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/test.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" />
       </list>
     </option>
   </component>
@@ -523,7 +523,7 @@
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.24857143" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3942857" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.25285715" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21030043" />
@@ -909,8 +909,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-324">
-          <caret line="84" column="49" selection-start-line="84" selection-start-column="49" selection-end-line="84" selection-end-column="49" />
+        <state relative-caret-position="262">
+          <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
