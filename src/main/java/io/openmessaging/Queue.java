@@ -31,6 +31,7 @@ public class Queue {
 
     private static Comparator<Message> comparator = (o1, o2) -> (int) (o1.getT() - o2.getT());
 
+
     //写缓冲区
     private   ByteBuffer writeBuffer = ByteBuffer.allocateDirect(MESSAGE_SIZE * MESSAGE_NUMBER);
 
@@ -53,10 +54,10 @@ public class Queue {
     private ByteBuffer flushBuffer = ByteBuffer.allocateDirect(MESSAGE_SIZE * FLUSH_MESSAGE_NUMBER);//  约等于64k
 
     //记录当前操作的是哪个块
-    private int blockIndex = -1;
+    //private int blockIndex = -1;
 
     //记录当前是否是首次操作该块
-    private boolean firstPut = true;
+    //private boolean firstPut = true;
 
     private FileChannel channel;
 
@@ -157,14 +158,18 @@ public class Queue {
             //blockIndex++;
             currentBlock = new BlockInfo();
             currentBlock.setTmin(segmentStartT);
+            currentBlock.setTmax(segmentEndT);
             currentBlock.setQueueName(queueName);
             blocks.add(currentBlock);
             //blockTMin[++blockIndex] = segmentStartT;
             thisBlockFisrtPut = false;
             //System.out.println(queueName + " block " + (blocks.size()) + " put begin" );
         }
-        if(message.getT() <= lastBlockTmax)
+/*        if(message.getT() <= lastBlockTmax) {
+            if(delayBuffer.size() == (MESSAGE_NUMBER + DELAY_NUMBER)){
+            }
             delayBuffer.add(message);
+        }*/
         else if (messageBuffer.size() == (MESSAGE_NUMBER + DELAY_NUMBER)) {
 /*            if(queueName.equals("queue1")) {
                 System.out.println(queueName + ":----put end----");
@@ -237,8 +242,10 @@ public class Queue {
                     //System.out.println("----------flush To Dist------------blockIndex:"+blockIndex + queueName);
                     //System.out.println("----------flush To Dist------------writePosition:"+writePosition+ queueName);
                 }
-                else
-                    currentBlock.setTmax(segmentEndT);
+                else {
+                    currentBlock.setTmin(Math.min(segmentStartT,currentBlock.getTmin()));
+                    currentBlock.setTmax(Math.max(segmentEndT,currentBlock.getTmax()));
+                }
 
                 writeBuffer.flip();
                 flushBuffer.put(writeBuffer);
@@ -369,7 +376,7 @@ public class Queue {
         //System.out.println("[Queue] " + queueName +" the length of priorityQueue and flushBuffer is " + restData.size());
 
         //处理delayBuffer里的数据
-        java.util.Queue<Message> tempQueue2 = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
+/*        java.util.Queue<Message> tempQueue2 = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
         while (!delayBuffer.isEmpty()) {
             Message msg = delayBuffer.poll();
             tempQueue2.offer(msg);
@@ -378,11 +385,11 @@ public class Queue {
             if (t >= tMin && t <= tMax && a >= aMin && a <= aMax)
                 restData.add(msg);
         }
-        delayBuffer = tempQueue2;
+        delayBuffer = tempQueue2;*/
 
         //处理已刷盘数据
         //System.out.println("[Queue] " + queueName +" get ssd disk data rest data");
-        int startBlock = size - 1;
+/*        int startBlock = size - 1;
         int endBlock = 0;
         for (int i = 0; i < size - 1; i++) {
             if (i == 0 && tMin <= blocks.get(i).getTmax()) {
@@ -408,8 +415,12 @@ public class Queue {
         }
         System.out.println("[Queue] " + queueName + " disk data filter begin"
                 +" startBlock:" + startBlock + " t:["+ blocks.get(startBlock).getTmin()+","+blocks.get(startBlock).getTmax() +"]"
-                + " endBlock:" + endBlock + "["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");
-        for (int j = startBlock; j <= endBlock; j++) {
+                + " endBlock:" + endBlock + "["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");*/
+        for (int j = 0; j <= size - 1; j++) {
+            long blockTmin = blocks.get(j).getTmin();
+            long blockTmax = blocks.get(j).getTmax();
+            if(blockTmin > tMax || blockTmax < tMin)
+                continue;
             readBuffer.clear();
             try {
                 channel.read(readBuffer, blocks.get(j).getStartOffset());
@@ -417,16 +428,29 @@ public class Queue {
                 e.printStackTrace();
             }
             readBuffer.flip();
-            for (int i = 0; i < FLUSH_MESSAGE_NUMBER; i++) {
-                byte[] body = new byte[MESSAGE_SIZE - 8 - 8];
-                long t = readBuffer.getLong();
-                long a = readBuffer.getLong();
-                readBuffer.get(body);
-                Message msg = new Message(a, t, body);
-                if (j == startBlock && t < tMin || j == endBlock && t > tMax)
-                    continue;
-                if (a >= aMin && a <= aMax)
-                    result.add(msg);
+
+            //边界Block数据 和 部分乱序的Block块的边界值刚好在查询的边界上 特殊处理
+            if((tMin >= blockTmin && tMin<=blockTmax)|| (tMax >= blockTmin && tMax <=blockTmax)){
+                for (int i = 0; i < FLUSH_MESSAGE_NUMBER; i++) {
+                    byte[] body = new byte[MESSAGE_SIZE - 8 - 8];
+                    long t = readBuffer.getLong();
+                    long a = readBuffer.getLong();
+                    readBuffer.get(body);
+                    Message msg = new Message(a, t, body);
+                    if (t >= tMin && t <= tMax && a >= aMin && a <= aMax)
+                        result.add(msg);
+                }
+            }
+            else {
+                for (int i = 0; i < FLUSH_MESSAGE_NUMBER; i++) {
+                    byte[] body = new byte[MESSAGE_SIZE - 8 - 8];
+                    long t = readBuffer.getLong();
+                    long a = readBuffer.getLong();
+                    readBuffer.get(body);
+                    Message msg = new Message(a, t, body);
+                    if (a >= aMin && a <= aMax)
+                        result.add(msg);
+                }
             }
         }
         if (result != null && result.size() > 0)

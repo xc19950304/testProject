@@ -2,15 +2,22 @@
 package io.openmessaging;
 
 import java.nio.ByteBuffer;
-import java.util.*;
-
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 
 //这是评测程序的一个demo版本，其评测逻辑与实际评测程序基本类似，但是比实际评测简单很多
 //该评测程序主要便于选手在本地优化和调试自己的程序
 
-public class LocalTester {
+public class LocalTester1 {
+
+    static Random rand = new Random();
+    static Map<Long,Integer> map = new ConcurrentHashMap<>();
+
 
     public static void main(String args[]) throws Exception {
 
@@ -32,6 +39,8 @@ public class LocalTester {
         int maxMsgCheckSize = 100000;
         // 每次查询求平均的最大跨度
         int maxValueCheckSize = 100000;
+
+
 
         MessageStore messageStore = null;
 
@@ -120,9 +129,18 @@ public class LocalTester {
                     buffer.putLong(0, count);
                     // 为测试方便, 插入的是有规律的数据, 不是实际测评的情况
                     messageStore.put(new Message(count, count, buffer.array()));
-                    if ((count & 0x1L) == 0) {
+/*                    if ((count & 0x1L) == 0) {
                         //偶数count多加一条消息
-                        messageStore.put(new Message(count, count, buffer.array()));
+                        int num = rand.nextInt(1000)+1;
+                        map.put(count,num);
+                        for(int i = 0; i<num; i++)
+                            messageStore.put(new Message(count, count, buffer.array()));
+                    }*/
+                    if(count % 5000 == 0){
+                        int num = 10000;
+                        map.put(count,num);
+                        for(int i = 0; i<num; i++)
+                            messageStore.put(new Message(count, count, buffer.array()));
                     }
                 } catch (Throwable t) {
                     t.printStackTrace();
@@ -196,12 +214,21 @@ public class LocalTester {
 
                         //偶数需要多验证一次
                         if ((index1 & 0x1) == 0 && iter.hasNext()) {
-                                msg = iter.next();
-                                if (msg.getA() != msg.getT() || msg.getA() != index1
-                                        || ByteBuffer.wrap(msg.getBody()).getLong() != index1) {
-                                    System.out.println(Thread.currentThread().getName() + " t:" + msg.getT() + " index1:" + index1);
-                                    checkError();
+                            Long value = Long.valueOf(index1);
+                            if(map.containsKey(value)) {
+                                Integer count = map.get(value);
+                                if (count == 0)
+                                    return;
+                                for (int i = 0; i < count; i++) {
+                                    msg = iter.next();
+
+                                    if (msg.getA() != msg.getT() || msg.getA() != index1
+                                            || ByteBuffer.wrap(msg.getBody()).getLong() != index1) {
+                                        System.out.println(Thread.currentThread().getName() + " t:" + msg.getT() + " index1:" + index1);
+                                        checkError();
+                                    }
                                 }
+                            }
                         }
 
                         ++index1;
