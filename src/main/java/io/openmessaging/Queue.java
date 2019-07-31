@@ -223,7 +223,7 @@ public class Queue {
             long writePosition = -1L;
             try {
                 if (flushBuffer.remaining() < MESSAGE_SIZE * MESSAGE_NUMBER) {
-                    if(queueName.equals("queue1"))
+                    if(queueName.equals("queue0"))
                         System.out.println(queueName + " block " + (blocks.size()) + " put finished  and  tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax()   );
 
                     lastBlockTmax = currentBlock.getTmax();
