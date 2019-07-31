@@ -22,9 +22,9 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     private AtomicLong writePosition = new AtomicLong(0L);
 
-    private String dir = "/Users/xiongchang.xc/race2019/";
+    //private String dir = "/Users/xiongchang.xc/race2019/";
 
-    //private String dir = "/alidata1/race2019/data/";
+    private String dir = "/alidata1/race2019/data/";
 
     private Random rand = new Random();
 
