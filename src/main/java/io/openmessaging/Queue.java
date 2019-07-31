@@ -422,6 +422,10 @@ public class Queue {
             if(blockTmin > tMax || blockTmax < tMin)
                 continue;
 
+            System.out.println("[Queue] " + queueName + " block in the range "
+                    +" blockTmin:" + blockTmin+" blockTmax:" + blockTmax
+                    + " t:["+ blocks.get(j).getTmin()+","+blocks.get(j).getTmax() +"]");
+
             readBuffer.clear();
             try {
                 channel.read(readBuffer, blocks.get(j).getStartOffset());
