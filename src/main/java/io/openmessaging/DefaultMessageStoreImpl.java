@@ -22,9 +22,9 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     private AtomicLong writePosition = new AtomicLong(0L);
 
-    //private String dir = "/Users/xiongchang.xc/race2019/";
+    private String dir = "/Users/xiongchang.xc/race2019/";
 
-    private String dir = "/alidata1/race2019/data/";
+    //private String dir = "/alidata1/race2019/data/";
 
     private Random rand = new Random();
 
@@ -82,7 +82,7 @@ public class DefaultMessageStoreImpl extends MessageStore {
         for(int i=0;i<queueSize;i++){
             queueRandRange.add(i);
         }*/
-       /* aMin = 670546;aMax = 776738;tMin = 538705;tMax = 543033;*/
+        aMin = 554702;aMax = 554802;tMin = 639549;tMax = 640016;
         System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " request begin");
         for (int i = 0; i < queueSize; i++) {
             String queueName = "queue" + i;

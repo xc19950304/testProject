@@ -340,6 +340,7 @@ public class Queue {
         //System.out.println("[Queue] " + queueName + " getMessage begin ");
         List<Message> result = new ArrayList<>();
         List<Message> restData = new ArrayList<>();
+
         int size = blocks.size();
 
         //最后一个block不一定刷盘，且数据存在优先队列(必有)和flush_buffer(可能有)中，单独考虑
@@ -416,6 +417,8 @@ public class Queue {
         System.out.println("[Queue] " + queueName + " disk data filter begin"
                 +" startBlock:" + startBlock + " t:["+ blocks.get(startBlock).getTmin()+","+blocks.get(startBlock).getTmax() +"]"
                 + " endBlock:" + endBlock + "["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");*/
+        System.out.println("[Queue] " + queueName + " block size " + (size)
+                + " t:["+ blocks.get(size - 1).getTmin()+","+blocks.get(size - 1).getTmax() +"]");
         for (int j = 0; j <= size - 1; j++) {
             long blockTmin = blocks.get(j).getTmin();
             long blockTmax = blocks.get(j).getTmax();
@@ -423,7 +426,6 @@ public class Queue {
                 continue;
 
             System.out.println("[Queue] " + queueName + " block in the range "
-                    +" blockTmin:" + blockTmin+" blockTmax:" + blockTmax
                     + " t:["+ blocks.get(j).getTmin()+","+blocks.get(j).getTmax() +"]");
 
             readBuffer.clear();
