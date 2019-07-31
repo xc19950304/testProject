@@ -96,6 +96,10 @@ public class DefaultMessageStoreImpl extends MessageStore {
         System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + " aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
         if (res != null && res.size() > 0)
             System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " min = [" + res.get(0).getT() + "], max = [" + res.get(res.size() - 1).getT() + "]");
+        else
+            System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " result is null");
+
+
         return res;
     }
 

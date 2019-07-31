@@ -417,10 +417,10 @@ public class Queue {
                 +" startBlock:" + startBlock + " t:["+ blocks.get(startBlock).getTmin()+","+blocks.get(startBlock).getTmax() +"]"
                 + " endBlock:" + endBlock + "["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");*/
         for (int j = 0; j <= size - 1; j++) {
-            long blockTmin = blocks.get(j).getTmin();
+/*            long blockTmin = blocks.get(j).getTmin();
             long blockTmax = blocks.get(j).getTmax();
             if(blockTmin > tMax || blockTmax < tMin)
-                continue;
+                continue;*/
             readBuffer.clear();
             try {
                 channel.read(readBuffer, blocks.get(j).getStartOffset());
@@ -430,7 +430,7 @@ public class Queue {
             readBuffer.flip();
 
             //边界Block数据 和 部分乱序的Block块的边界值刚好在查询的边界上 特殊处理
-            if((tMin >= blockTmin && tMin<=blockTmax)|| (tMax >= blockTmin && tMax <=blockTmax)){
+/*            if((tMin >= blockTmin && tMin<=blockTmax)|| (tMax >= blockTmin && tMax <=blockTmax)){
                 for (int i = 0; i < FLUSH_MESSAGE_NUMBER; i++) {
                     byte[] body = new byte[MESSAGE_SIZE - 8 - 8];
                     long t = readBuffer.getLong();
@@ -441,17 +441,17 @@ public class Queue {
                         result.add(msg);
                 }
             }
-            else {
+            else {*/
                 for (int i = 0; i < FLUSH_MESSAGE_NUMBER; i++) {
                     byte[] body = new byte[MESSAGE_SIZE - 8 - 8];
                     long t = readBuffer.getLong();
                     long a = readBuffer.getLong();
                     readBuffer.get(body);
                     Message msg = new Message(a, t, body);
-                    if (a >= aMin && a <= aMax)
+                    if (t >= tMin && t <= tMax && a >= aMin && a <= aMax)
                         result.add(msg);
                 }
-            }
+ /*           }*/
         }
         if (result != null && result.size() > 0)
             System.out.println("[Queue] " + queueName + " disk data filter end"
