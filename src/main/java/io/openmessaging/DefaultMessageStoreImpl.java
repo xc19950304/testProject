@@ -18,9 +18,9 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     private int queueSize = 10;
 
-    private FileChannel channels;
+    private FileChannel[] channels = new FileChannel[queueSize];
 
-    private AtomicLong writePosition = new AtomicLong(0L);
+    private AtomicLong[] writePosition = new AtomicLong[queueSize];
 
     //private String dir = "/Users/xiongchang.xc/race2019/";
 
@@ -31,13 +31,16 @@ public class DefaultMessageStoreImpl extends MessageStore {
     private static Comparator<Message> comparator = (o1, o2) -> (int) (o1.getT() - o2.getT());
 
     DefaultMessageStoreImpl() {
-        RandomAccessFile memoryMappedFile = null;
-        try {
-            memoryMappedFile = new RandomAccessFile(dir + "all" + ".data", "rw");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        for(int i = 0;i<10;i++) {
+            RandomAccessFile memoryMappedFile = null;
+            try {
+                memoryMappedFile = new RandomAccessFile(dir + "queue"+ i + ".data", "rw");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            channels[i] = memoryMappedFile.getChannel();
+            writePosition[i] = new AtomicLong(0);
         }
-        channels = memoryMappedFile.getChannel();
     }
 
 
@@ -51,7 +54,7 @@ public class DefaultMessageStoreImpl extends MessageStore {
             synchronized (this) {
                 queue = queueMaps.get(queueName);
                 if (queue == null) {
-                    queue = new Queue(channels, writePosition, queueName);
+                    queue = new Queue(channels[queueNumber], writePosition[queueNumber], queueName);
                     queueMaps.put(queueName, queue);
                 }
             }
