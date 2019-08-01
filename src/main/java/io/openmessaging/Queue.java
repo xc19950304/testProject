@@ -152,7 +152,7 @@ public class Queue {
     private boolean thisBlockFisrtPut = true;
     //有个问题就是没办法处理最后没有不满30条的消息，该消息一直在优先队列中
     //同一时刻一个Queue的put和flush串行执行
-    public AtomicLong atomicLong = new AtomicLong(0);
+    public static AtomicLong atomicLong = new AtomicLong(0);
     public synchronized void put(Message message) {
         if(thisBlockFisrtPut){
             //blockIndex++;

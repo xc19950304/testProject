@@ -15,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DefaultMessageStoreImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DefaultMessageStoreImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="49" column="41" selection-start-line="49" selection-start-column="41" selection-end-line="49" selection-end-column="41" />
+            <state relative-caret-position="311">
+              <caret line="61" column="16" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -27,14 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Queue.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Queue.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3360">
-              <caret line="151" column="37" selection-start-line="151" selection-start-column="20" selection-end-line="151" selection-end-column="37" />
-              <caret line="156" column="28" selection-start-line="156" selection-start-column="11" selection-end-line="156" selection-end-column="28" />
-              <caret line="163" column="29" selection-start-line="163" selection-start-column="12" selection-end-line="163" selection-end-column="29" />
-              <caret line="224" column="37" selection-start-line="224" selection-start-column="20" selection-end-line="224" selection-end-column="37" />
+            <state relative-caret-position="317">
+              <caret line="171" column="45" selection-start-line="171" selection-start-column="45" selection-end-line="171" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1358#1367#0" expanded="true" />
@@ -45,20 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DefaultMessageStoreImplOrigin.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImplOrigin.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="9" column="42" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="LocalTester1.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester1.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="69" column="78" selection-start-line="69" selection-start-column="72" selection-end-line="69" selection-end-column="78" />
+            <state relative-caret-position="245">
+              <caret line="198" column="103" selection-start-line="198" selection-start-column="103" selection-end-line="198" selection-end-column="103" />
             </state>
           </provider>
         </entry>
@@ -123,8 +111,8 @@
       <find>queueMaps</find>
       <find>queueLock</find>
       <find>flushBuffer</find>
-      <find>msgNum</find>
       <find>thisBlockFisrtPut</find>
+      <find>msgNum</find>
     </findStrings>
     <replaceStrings>
       <replace>queue1</replace>
@@ -146,9 +134,9 @@
         <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester.java" />
         <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/DemoTester.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/test.java" />
-        <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester1.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl1.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" />
+        <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester1.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" />
       </list>
     </option>
@@ -488,6 +476,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -498,8 +487,8 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5007153" side_tool="true" weight="0.2657143" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" weight="0.26" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.28714284" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49928468" visible="true" weight="0.21571429" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.2857143" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24177396" />
@@ -815,13 +804,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="69" column="78" selection-start-line="69" selection-start-column="72" selection-end-line="69" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImplOrigin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -829,28 +811,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester1.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3360">
-          <caret line="151" column="37" selection-start-line="151" selection-start-column="20" selection-end-line="151" selection-end-column="37" />
-          <caret line="156" column="28" selection-start-line="156" selection-start-column="11" selection-end-line="156" selection-end-column="28" />
-          <caret line="163" column="29" selection-start-line="163" selection-start-column="12" selection-end-line="163" selection-end-column="29" />
-          <caret line="224" column="37" selection-start-line="224" selection-start-column="20" selection-end-line="224" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1358#1367#0" expanded="true" />
-            <element signature="method#getAll#0;class#Queue#0" />
-            <element signature="method#getMessage#0;class#Queue#0" />
-          </folding>
+        <state relative-caret-position="245">
+          <caret line="198" column="103" selection-start-line="198" selection-start-column="103" selection-end-line="198" selection-end-column="103" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="49" column="41" selection-start-line="49" selection-start-column="41" selection-end-line="49" selection-end-column="41" />
+        <state relative-caret-position="311">
+          <caret line="61" column="16" selection-start-line="61" selection-start-column="16" selection-end-line="61" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="171" column="45" selection-start-line="171" selection-start-column="45" selection-end-line="171" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1358#1367#0" expanded="true" />
+            <element signature="method#getAll#0;class#Queue#0" />
+            <element signature="method#getMessage#0;class#Queue#0" />
           </folding>
         </state>
       </provider>
