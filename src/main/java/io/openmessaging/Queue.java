@@ -26,9 +26,6 @@ public class Queue {
     //每个读写缓冲区的延迟消息个数
     public final static int DELAY_NUMBER = 1000;//非常重要，用于保证每个块间的延迟性;
 
-    //当前Queue对应的块个数，每个块64k-1310条消息,有BLOCK_SIZE个块
-    public final static int BLOCK_SIZE = 50000;
-
     private static Comparator<Message> comparator = (o1, o2) -> (int) (o1.getT() - o2.getT());
 
 
@@ -37,9 +34,6 @@ public class Queue {
 
     private   ByteBuffer readBuffer = ByteBuffer.allocateDirect(MESSAGE_SIZE * FLUSH_MESSAGE_NUMBER);
 
-    //private  final static ByteBuffer readAndWriteBuffer = ByteBuffer.allocateDirect(MESSAGE_SIZE * (MESSAGE_NUMBER + DELAY_NUMBER));
-
-
     private java.util.Queue<Message> messageBuffer = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
 
     private static java.util.Queue<Message> delayBuffer = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
@@ -47,33 +41,13 @@ public class Queue {
     //上一个块的最大值，判断是否仍然存在延迟数据
     private long lastBlockTmax;
 
-    //消息个数
-   // private AtomicInteger currentMessageNumber = new AtomicInteger(0);
-
     //64k刷一次盘，ISOP的最优刷盘值
     private ByteBuffer flushBuffer = ByteBuffer.allocateDirect(MESSAGE_SIZE * FLUSH_MESSAGE_NUMBER);//  约等于64k
-
-    //记录当前操作的是哪个块
-    //private int blockIndex = -1;
-
-    //记录当前是否是首次操作该块
-    //private boolean firstPut = true;
 
     private FileChannel channel;
 
     //记录当前操作块的物理偏移
     private AtomicLong writePosition;
-
-
-/*    // 记录块每个块中首消息的t值
-    private long blockTMin[] = new long[BLOCK_SIZE];
-
-    // 记录块每个块中末尾消息的t值
-    private long blockTMax[] = new long[BLOCK_SIZE];
-
-    // 记录每个块在物理文件中的起始偏移量
-    private long offsets[] = new long[BLOCK_SIZE];*/
-
 
     private ArrayList<BlockInfo> blocks = new ArrayList<BlockInfo>();
 
@@ -93,9 +67,10 @@ public class Queue {
     }
 
     private boolean thisBlockFisrtPut = true;
-    //有个问题就是没办法处理最后没有不满30条的消息，该消息一直在优先队列中
-    //同一时刻一个Queue的put和flush串行执行
+
     public static AtomicLong atomicLong = new AtomicLong(0);
+
+    //同一时刻一个Queue的put和flush串行执行
     public synchronized void put(Message message) {
         if(thisBlockFisrtPut){
             currentBlock = new BlockInfo();
@@ -138,13 +113,8 @@ public class Queue {
             long writePosition = -1L;
             try {
                 if (flushBuffer.remaining() < MESSAGE_SIZE * MESSAGE_NUMBER) {
-/*
-                    if(queueName.equals("queue0"))
-                        System.out.println(queueName + " block " + (blocks.size()) + " put finished  and  tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax()   );
-*/
 
                     lastBlockTmax = currentBlock.getTmax();
-
                     flushBuffer.flip();
                     writePosition = this.writePosition.get();//获取刷块时的物理地址
                     channel.write(flushBuffer);
@@ -184,76 +154,16 @@ public class Queue {
         }
     }
 
-    public synchronized void getAll(long aMin, long aMax, long tMin, long tMax){
-        //System.out.println(queueName);
-        int size = blocks.size();
-
-        //最后一个block不一定刷盘，且数据存在优先队列(必有)和flush_buffer(可能有)中，单独考虑
-        //处理flush_buffer
-        int messageNum = flushBuffer.remaining() / MESSAGE_SIZE;
-        if (messageNum != 0) {
-            size = size - 1;
-        }
-
-
-        //共有多少个block
-        for (int j = 0; j <size; j++) {
-            readBuffer.clear();
-            try {
-                channel.read(readBuffer, blocks.get(j).getStartOffset());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            readBuffer.flip();
-            for (int i = 0; i < FLUSH_MESSAGE_NUMBER; i++) {
-                byte[] body = new byte[MESSAGE_SIZE-8-8];
-                long t = readBuffer.getLong();
-                long a = readBuffer.getLong();
-                readBuffer.get(body);
-                Message msg = new Message(a,t,body);
-
-               //System.out.println("blockId:"+ j + " " +blocks.get(j).getTmin()+ "-"+blocks.get(j).getTmax() +  ",t:" + t );
-
-            }
-        }
-        //System.out.println("--------------------flush buffer data-----------------");
-
-        flushBuffer.flip();
-        if (messageNum != 0) {
-            for (int i = 0; i < messageNum; i++) {
-                byte[] body = new byte[MESSAGE_SIZE - 8 - 8];
-                long t = flushBuffer.getLong();
-                long a = flushBuffer.getLong();
-                flushBuffer.get(body);
-                Message msg = new Message(a, t, body);
-                //System.out.println("t:" + t );
-            }
-        }
-
-
-        //System.out.println("--------------------message buffer data-----------------");
-        java.util.Queue<Message> tempQueue = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
-        while (!messageBuffer.isEmpty()) {
-            Message msg = messageBuffer.poll();
-            tempQueue.offer(msg);
-            /*long a = msg.getA();
-            long t = msg.getT();
-            System.out.println("t:" + t );*/
-        }
-        messageBuffer = tempQueue;
-    }
-
     Lock queueLock = new ReentrantLock();
-    //同一时刻只有
+
     public List<Message> getMessage(long aMin, long aMax, long tMin, long tMax) {
 
         queueLock.lock();
-        //System.out.println("[Queue] " + queueName + " getMessage begin ");
+
         List<Message> result = new ArrayList<>();
         List<Message> restData = new ArrayList<>();
 
         int size = blocks.size();
-        //System.out.println("[Queue] " + queueName +" the length of blocks is " + blocks.size());
 
         //最后一个block不一定刷盘，且数据存在于优先队列(必有)和flush_buffer(可能有)中
         //处理flush_buffer
@@ -271,7 +181,6 @@ public class Queue {
             }
             size = size - 1;
         }
-        //System.out.println("[Queue] " + queueName +" the length of flushBuffer is " + restData.size());
 
         //处理queue_buffer
         java.util.Queue<Message> tempQueue1 = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
@@ -284,7 +193,6 @@ public class Queue {
                 restData.add(msg);
         }
         messageBuffer = tempQueue1;
-        //System.out.println("[Queue] " + queueName +" the length of priorityQueue and flushBuffer is " + restData.size());
 
         //处理delayBuffer里的数据
 
@@ -332,7 +240,7 @@ public class Queue {
             readBuffer.flip();
 
             //边界Block数据 和 部分乱序的Block块的边界值刚好在查询的边界上 特殊处理
-/*            if((tMin >= blockTmin && tMin<=blockTmax)|| (tMax >= blockTmin && tMax <=blockTmax)){
+            if((tMin >= blockTmin && tMin<=blockTmax)|| (tMax >= blockTmin && tMax <=blockTmax)){
                 for (int i = 0; i < FLUSH_MESSAGE_NUMBER; i++) {
                     byte[] body = new byte[MESSAGE_SIZE - 8 - 8];
                     long t = readBuffer.getLong();
@@ -343,7 +251,7 @@ public class Queue {
                         result.add(msg);
                 }
             }
-            else {*/
+            else {
                 for (int i = 0; i < FLUSH_MESSAGE_NUMBER; i++) {
                     byte[] body = new byte[MESSAGE_SIZE - 8 - 8];
                     long t = readBuffer.getLong();
@@ -353,7 +261,7 @@ public class Queue {
                     if (t >= tMin && t <= tMax && a >= aMin && a <= aMax)
                         result.add(msg);
                 }
- /*           }*/
+            }
         }
         if (result != null && result.size() > 0)
             System.out.println("[Queue] " + queueName + " disk data filter end"
@@ -361,12 +269,9 @@ public class Queue {
                     + " a:[" + result.get(0).getA() + "," + result.get(result.size() - 1).getA() + "]");
         else
             System.out.println("[Queue] " + queueName + " disk data filter end" + " null");
-        //System.out.println("[Queue] " + queueName +" ,the length of ssd data is " + result.size());
         result.addAll(restData);
-        //System.out.println("[Queue] " + queueName +" ,the length of this queue data is " + result.size());
         queueLock.unlock();
         return result;
-
     }
 
 }

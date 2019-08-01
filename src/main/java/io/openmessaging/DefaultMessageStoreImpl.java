@@ -48,7 +48,6 @@ public class DefaultMessageStoreImpl extends MessageStore {
     @Override
     public void put(Message message) {
         int queueNumber = Math.abs(Thread.currentThread().getName().hashCode()) % queueSize;
-        //int queueNumber = rand.nextInt(1000) % queueSize;
         String queueName = "queue" + queueNumber;
         Queue queue = queueMaps.get(queueName);
         if (queue == null) {
@@ -63,14 +62,9 @@ public class DefaultMessageStoreImpl extends MessageStore {
         queue.put(message);
     }
 
-    //private static AtomicInteger time = new AtomicInteger(0);
-    //int time = 0;
-
-
 
     @Override
     public List<Message> getMessage(long aMin, long aMax, long tMin, long tMax) {
-        //System.out.println("[DefaultMessageStoreImpl]"+ time+ " " + Thread.currentThread().getName() +" time get Message");
         List<Message> res = new ArrayList<>();
 /*        List<Integer> queueRandRange = new ArrayList<>();
         for(int i=0;i<queueSize;i++){
@@ -89,21 +83,23 @@ public class DefaultMessageStoreImpl extends MessageStore {
             queueRandRange.add(i);
         }*/
         /*aMin = 554702;aMax = 554802;tMin = 639549;tMax = 640016;*/
-        System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " request begin");
+        //System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " request begin");
         for (int i = 0; i < queueSize; i++) {
             String queueName = "queue" + i;
-            System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + queueName + " getMessage begin ");
+            //System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + queueName + " getMessage begin ");
             List<Message> messageList = queueMaps.get(queueName).getMessage(aMin, aMax, tMin, tMax);
-            System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + queueName + " getMessage finished ");
+            //System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + queueName + " getMessage finished ");
             res.addAll(messageList);
         }
         Collections.sort(res, comparator);
-        System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + "request end");
-        System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + " aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
+        //System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + "request end");
+        //System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + " aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
+/*
         if (res != null && res.size() > 0)
             System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " min = [" + res.get(0).getT() + "], max = [" + res.get(res.size() - 1).getT() + "]");
         else
             System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " result is null");
+*/
 
         return res;
     }
