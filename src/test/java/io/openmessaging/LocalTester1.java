@@ -195,8 +195,8 @@ public class LocalTester1 {
                     int index1 = Math.max(aIndex1, tIndex1);
                     int index2 = Math.min(aIndex2, tIndex2);
 
-                    //List<Message> msgs = messageStore.getMessage(aIndex1, aIndex2, tIndex1, tIndex2);
-                    List<Message> msgs = messageStore.getMessage(Math.max(aIndex1,tIndex1), aIndex2, -1, tIndex2);
+                    List<Message> msgs = messageStore.getMessage(aIndex1, aIndex2, tIndex1, tIndex2);
+                    //List<Message> msgs = messageStore.getMessage(Math.max(aIndex1,tIndex1), aIndex2, -1, tIndex2);
 
                     //验证消息
                     Iterator<Message> iter = msgs.iterator();

@@ -16,7 +16,7 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     private Map<String, Queue> queueMaps = new HashMap();
 
-    private int queueSize = 100;
+    private int queueSize = 500;
 
     private FileChannel[] channels = new FileChannel[queueSize];
 
@@ -103,7 +103,6 @@ public class DefaultMessageStoreImpl extends MessageStore {
             System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " min = [" + res.get(0).getT() + "], max = [" + res.get(res.size() - 1).getT() + "]");
         else
             System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " result is null");
-
 
         return res;
     }
