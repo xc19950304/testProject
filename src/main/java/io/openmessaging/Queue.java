@@ -168,7 +168,7 @@ public class Queue {
             flush();
         }
 
-        if(atomicLong.getAndIncrement() % 100 == 1)
+        if(atomicLong.getAndIncrement() % 10000000 == 1)
             System.out.println(queueName + " message sum:" + atomicLong + ", messageT:" + message.getT() + ", blockSize:"
                     + blocks.size() + ", tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax());
         messageBuffer.add(message);

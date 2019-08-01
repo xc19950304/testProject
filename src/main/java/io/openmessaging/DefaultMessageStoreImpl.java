@@ -65,6 +65,8 @@ public class DefaultMessageStoreImpl extends MessageStore {
     //private static AtomicInteger time = new AtomicInteger(0);
     //int time = 0;
 
+
+
     @Override
     public List<Message> getMessage(long aMin, long aMax, long tMin, long tMax) {
         //System.out.println("[DefaultMessageStoreImpl]"+ time+ " " + Thread.currentThread().getName() +" time get Message");
