@@ -47,7 +47,7 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     @Override
     public void put(Message message) {
-        int queueNumber = rand.nextInt(200) % queueSize;
+        int queueNumber = rand.nextInt(10) % queueSize;
         String queueName = "queue" + queueNumber;
         Queue queue = queueMaps.get(queueName);
         if (queue == null) {
