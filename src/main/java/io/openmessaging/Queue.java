@@ -85,9 +85,9 @@ public class Queue {
             flush();
         }
 
-        if(atomicLong.getAndIncrement() % 10000000 == 1)
+        /*if(atomicLong.getAndIncrement() % 10000000 == 1)
             System.out.println(queueName + " message sum:" + atomicLong + ", messageT:" + message.getT() + ", blockSize:"
-                    + blocks.size() + ", tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax());
+                    + blocks.size() + ", tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax());*/
         messageBuffer.add(message);
     }
 
@@ -194,37 +194,6 @@ public class Queue {
         }
         messageBuffer = tempQueue1;
 
-        //处理delayBuffer里的数据
-
-        //处理已刷盘数据
-/*        int startBlock = size - 1;
-        int endBlock = 0;
-        for (int i = 0; i < size - 1; i++) {
-            if (i == 0 && tMin <= blocks.get(i).getTmax()) {
-                startBlock = i;
-                break;
-            } else if (tMin > blocks.get(i).getTmax() && tMin <= blocks.get(i + 1).getTmax()) {
-                startBlock = i + 1;
-                System.out.println("[Queue] " + queueName + " size:"+ size +" tMin:" + tMin
-                        +" startBlock:" + startBlock + " t:["+ blocks.get(startBlock).getTmin()+","+blocks.get(startBlock).getTmax() +"]");
-                break;
-            }
-        }
-        for (int i = size - 1; i > 0; i--) {
-            if (i == size - 1 && tMax >= blocks.get(i).getTmin()) {
-                endBlock = i;
-                break;
-            } else if (tMax < blocks.get(i).getTmin() && tMax >= blocks.get(i - 1).getTmin()) {
-                endBlock = i - 1;
-                System.out.println("[Queue] " + queueName  + " size:"+ size + " tMax:" + tMax
-                        +" endBlock:" + endBlock + " t:["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");
-                break;
-            }
-        }
-        System.out.println("[Queue] " + queueName + " disk data filter begin"
-                +" startBlock:" + startBlock + " t:["+ blocks.get(startBlock).getTmin()+","+blocks.get(startBlock).getTmax() +"]"
-                + " endBlock:" + endBlock + "["+ blocks.get(endBlock).getTmin()+","+blocks.get(endBlock).getTmax() +"]");*/
-
         for (int j = 0; j <= size - 1; j++) {
             long blockTmin = blocks.get(j).getTmin();
             long blockTmax = blocks.get(j).getTmax();
@@ -258,7 +227,7 @@ public class Queue {
                     long a = readBuffer.getLong();
                     readBuffer.get(body);
                     Message msg = new Message(a, t, body);
-                    if (t >= tMin && t <= tMax && a >= aMin && a <= aMax)
+                    if ( a >= aMin && a <= aMax)
                         result.add(msg);
                 }
             }
