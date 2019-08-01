@@ -16,7 +16,7 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     private Map<String, Queue> queueMaps = new HashMap();
 
-    private int queueSize = 500;
+    private int queueSize = 10;
 
     private FileChannel[] channels = new FileChannel[queueSize];
 
@@ -47,7 +47,8 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     @Override
     public void put(Message message) {
-        int queueNumber = rand.nextInt(1000) % queueSize;
+        int queueNumber = Math.abs(Thread.currentThread().getName().hashCode()) % queueSize;
+        //int queueNumber = rand.nextInt(1000) % queueSize;
         String queueName = "queue" + queueNumber;
         Queue queue = queueMaps.get(queueName);
         if (queue == null) {

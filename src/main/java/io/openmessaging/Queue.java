@@ -138,8 +138,10 @@ public class Queue {
             long writePosition = -1L;
             try {
                 if (flushBuffer.remaining() < MESSAGE_SIZE * MESSAGE_NUMBER) {
+/*
                     if(queueName.equals("queue0"))
                         System.out.println(queueName + " block " + (blocks.size()) + " put finished  and  tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax()   );
+*/
 
                     lastBlockTmax = currentBlock.getTmax();
 
@@ -251,7 +253,7 @@ public class Queue {
         List<Message> restData = new ArrayList<>();
 
         int size = blocks.size();
-        System.out.println("[Queue] " + queueName +" the length of blocks is " + blocks.size());
+        //System.out.println("[Queue] " + queueName +" the length of blocks is " + blocks.size());
 
         //最后一个block不一定刷盘，且数据存在于优先队列(必有)和flush_buffer(可能有)中
         //处理flush_buffer
