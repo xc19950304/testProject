@@ -71,7 +71,7 @@ public class Queue {
     public static AtomicLong atomicLong = new AtomicLong(0);
 
     //同一时刻一个Queue的put和flush串行执行
-    public synchronized void put(Message message) {
+    public void put(Message message) {
         if(thisBlockFisrtPut){
             currentBlock = new BlockInfo();
             currentBlock.setTmin(segmentStartT);
@@ -85,7 +85,7 @@ public class Queue {
             flush();
         }
 
-        /*if(atomicLong.getAndIncrement() % 10000000 == 1)
+/*        if(atomicLong.getAndIncrement() % 10000000 == 1)
             System.out.println(queueName + " message sum:" + atomicLong + ", messageT:" + message.getT() + ", blockSize:"
                     + blocks.size() + ", tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax());*/
         messageBuffer.add(message);
@@ -232,12 +232,12 @@ public class Queue {
                 }
             }
         }
-        if (result != null && result.size() > 0)
+/*        if (result != null && result.size() > 0)
             System.out.println("[Queue] " + queueName + " disk data filter end"
                     + " t:[" + result.get(0).getT() + "," + result.get(result.size() - 1).getT() + "]"
                     + " a:[" + result.get(0).getA() + "," + result.get(result.size() - 1).getA() + "]");
         else
-            System.out.println("[Queue] " + queueName + " disk data filter end" + " null");
+            System.out.println("[Queue] " + queueName + " disk data filter end" + " null");*/
         result.addAll(restData);
         queueLock.unlock();
         return result;

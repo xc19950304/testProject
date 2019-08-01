@@ -22,15 +22,12 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     private AtomicLong[] writePosition = new AtomicLong[queueSize];
 
-    //private String dir = "/Users/xiongchang.xc/race2019/";
-
-    private String dir = "/alidata1/race2019/data/";
 
     private Random rand = new Random();
 
     private static Comparator<Message> comparator = (o1, o2) -> (int) (o1.getT() - o2.getT());
 
-    DefaultMessageStoreImpl() {
+    /*DefaultMessageStoreImpl() {
         for(int i = 0;i<queueSize;i++) {
             RandomAccessFile memoryMappedFile = null;
             try {
@@ -41,11 +38,11 @@ public class DefaultMessageStoreImpl extends MessageStore {
             channels[i] = memoryMappedFile.getChannel();
             writePosition[i] = new AtomicLong(0);
         }
-    }
+    }*/
 
 
 
-    @Override
+/*    @Override
     public void put(Message message) {
         int queueNumber = Math.abs(Thread.currentThread().getName().hashCode()) % queueSize;
         String queueName = "queue" + queueNumber;
@@ -60,13 +57,65 @@ public class DefaultMessageStoreImpl extends MessageStore {
             }
         }
         queue.put(message);
+    }*/
+
+    @Override
+    public void put(Message message) {
+        int queueNumber = QueueCodeUtil.getCodeByThreadName(Thread.currentThread().getName());
+        String queueName = "queue" + queueNumber;
+        Queue queue = queueMaps.get(queueName);
+        if (queue == null) {
+            synchronized (this) {
+                queue = queueMaps.get(queueName);
+                if (queue == null) {
+                    RandomAccessFile memoryMappedFile = null;
+                    try {
+                        memoryMappedFile = new RandomAccessFile(Constants.DIR + queueName + ".data", "rw");
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    FileChannel channel = memoryMappedFile.getChannel();
+                    AtomicLong writePosition = new AtomicLong(0);
+                    queue = new Queue(channel, writePosition, queueName);
+                    queueMaps.put(queueName, queue);
+                }
+            }
+        }
+        queue.put(message);
     }
-
-
     @Override
     public List<Message> getMessage(long aMin, long aMax, long tMin, long tMax) {
         List<Message> res = new ArrayList<>();
-/*        List<Integer> queueRandRange = new ArrayList<>();
+        for (Map.Entry<String, Queue> entry : queueMaps.entrySet()) {
+            List<Message> messageList = entry.getValue().getMessage(aMin, aMax, tMin, tMax);
+            res.addAll(messageList);
+        }
+        Collections.sort(res, comparator);
+        return res;
+    }
+
+    @Override
+    public long getAvgValue(long aMin, long aMax, long tMin, long tMax) {
+        long sum = 0;
+        long count = 0;
+        for (Map.Entry<String, Queue> entry : queueMaps.entrySet()) {
+            List<Message> messageList = entry.getValue().getMessage(aMin, aMax, tMin, tMax);
+            int size = messageList.size();
+            for (int j = 0; j < size; j++) {
+                sum += messageList.get(j).getA();
+            }
+            count += size;
+        }
+        return count == 0 ? 0 : sum / count;
+    }
+
+
+
+/*    @Override
+    public List<Message> getMessage(long aMin, long aMax, long tMin, long tMax) {
+        List<Message> res = new ArrayList<>();
+        *//*
+        List<Integer> queueRandRange = new ArrayList<>();
         for(int i=0;i<queueSize;i++){
             queueRandRange.add(i);
         }
@@ -81,7 +130,8 @@ public class DefaultMessageStoreImpl extends MessageStore {
         Collections.sort(res, comparator);
         for(int i=0;i<queueSize;i++){
             queueRandRange.add(i);
-        }*/
+        }*//*
+
         //System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " request begin");
         for (int i = 0; i < queueSize; i++) {
             String queueName = "queue" + i;
@@ -91,14 +141,16 @@ public class DefaultMessageStoreImpl extends MessageStore {
             res.addAll(messageList);
         }
         Collections.sort(res, comparator);
-        //System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + "request end");
-        //System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + " aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
-/*
+
+        *//*
+        System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + "request end");
+        System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " " + " aMin = [" + aMin + "], aMax = [" + aMax + "], tMin = [" + tMin + "], tMax = [" + tMax + "]");
         if (res != null && res.size() > 0)
             System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " min = [" + res.get(0).getT() + "], max = [" + res.get(res.size() - 1).getT() + "]");
         else
             System.out.println("[DefaultMessageStoreImpl] " + Thread.currentThread().getName() + " result is null");
-*/
+            *//*
+
 
         return res;
     }
@@ -119,5 +171,5 @@ public class DefaultMessageStoreImpl extends MessageStore {
         }
         return count == 0 ? 0 : sum / count;
     }
-
+*/
 }
