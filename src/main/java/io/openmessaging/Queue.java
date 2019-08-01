@@ -164,23 +164,11 @@ public class Queue {
             thisBlockFisrtPut = false;
             //System.out.println(queueName + " block " + (blocks.size()) + " put begin" );
         }
-/*        if(message.getT() <= lastBlockTmax) {
-            if(delayBuffer.size() == (MESSAGE_NUMBER + DELAY_NUMBER)){
-            }
-            delayBuffer.add(message);
-        }*/
         else if (messageBuffer.size() == (MESSAGE_NUMBER + DELAY_NUMBER)) {
-/*            if(queueName.equals("queue1")) {
-                System.out.println(queueName + ":----put end----");
-                System.out.println(queueName + ":-flush begin--buffer_queue_size:" + messageBuffer.size());
-            }*/
             flush();
-/*            if(queueName.equals("queue1")) {
-                System.out.println(queueName + ":----put start----");
-                System.out.println(queueName + ":-flush end--buffer_queue_size:"+messageBuffer.size());
-            }*/
         }
-        if(atomicLong.getAndIncrement() % 100000000 < 1000)
+
+        if(atomicLong.getAndIncrement() % 100 == 1)
             System.out.println(queueName + " message sum:" + atomicLong + ", messageT:" + message.getT() + ", blockSize:"
                     + blocks.size() + ", tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax());
         messageBuffer.add(message);
