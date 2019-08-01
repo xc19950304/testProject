@@ -26,12 +26,12 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
     private String dir = "/alidata1/race2019/data/";
 
-    private Random rand = new Random();
+    //private Random rand = new Random();
 
     private static Comparator<Message> comparator = (o1, o2) -> (int) (o1.getT() - o2.getT());
 
     DefaultMessageStoreImpl() {
-        for(int i = 0;i<10;i++) {
+        for(int i = 0;i<queueSize;i++) {
             RandomAccessFile memoryMappedFile = null;
             try {
                 memoryMappedFile = new RandomAccessFile(dir + "queue"+ i + ".data", "rw");
