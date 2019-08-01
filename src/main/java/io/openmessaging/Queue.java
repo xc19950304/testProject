@@ -9,7 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.LongAdder;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -153,9 +152,8 @@ public class Queue {
     private boolean thisBlockFisrtPut = true;
     //有个问题就是没办法处理最后没有不满30条的消息，该消息一直在优先队列中
     //同一时刻一个Queue的put和flush串行执行
-    public static LongAdder longAdder = new LongAdder();
+    public AtomicLong atomicLong = new AtomicLong(0);
     public synchronized void put(Message message) {
-        longAdder.add(1);
         if(thisBlockFisrtPut){
             //blockIndex++;
             currentBlock = new BlockInfo();
@@ -163,13 +161,9 @@ public class Queue {
             currentBlock.setTmax(segmentEndT);
             currentBlock.setQueueName(queueName);
             blocks.add(currentBlock);
-            //blockTMin[++blockIndex] = segmentStartT;
             thisBlockFisrtPut = false;
             //System.out.println(queueName + " block " + (blocks.size()) + " put begin" );
         }
-        if(longAdder.longValue() % 100000000 < 1000)
-            System.out.println(queueName + " message sum:" + longAdder.longValue() + ", messageT" + message.getT() + ", blockSize:"
-                    + blocks.size() + ", tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax());
 /*        if(message.getT() <= lastBlockTmax) {
             if(delayBuffer.size() == (MESSAGE_NUMBER + DELAY_NUMBER)){
             }
@@ -186,8 +180,9 @@ public class Queue {
                 System.out.println(queueName + ":-flush end--buffer_queue_size:"+messageBuffer.size());
             }*/
         }
-/*        if(queueName.equals("queue1"))
-            System.out.println(queueName+ "-message_T:" + message.getT());*/
+        if(atomicLong.getAndIncrement() % 100000000 < 1000)
+            System.out.println(queueName + " message sum:" + atomicLong + ", messageT:" + message.getT() + ", blockSize:"
+                    + blocks.size() + ", tmin:" + currentBlock.getTmin() + " tmax:" + currentBlock.getTmax());
         messageBuffer.add(message);
     }
 
@@ -346,6 +341,7 @@ public class Queue {
         List<Message> restData = new ArrayList<>();
 
         int size = blocks.size();
+        System.out.println("[Queue] " + queueName +" the length of blocks is " + blocks.size());
 
         //最后一个block不一定刷盘，且数据存在优先队列(必有)和flush_buffer(可能有)中，单独考虑
         //处理flush_buffer
