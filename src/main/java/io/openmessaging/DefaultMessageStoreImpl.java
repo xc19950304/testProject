@@ -12,52 +12,18 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class DefaultMessageStoreImpl extends MessageStore {
 
-    private NavigableMap<Long, List<Message>> msgMap = new TreeMap<>();
 
     private Map<String, Queue> queueMaps = new HashMap();
 
-    private int queueSize = 10;
+    private static Comparator<Message> comparator = (o1, o2) -> (int) (o1.getT() - o2.getT());
+
+    /*private int queueSize = 10;
 
     private FileChannel[] channels = new FileChannel[queueSize];
 
     private AtomicLong[] writePosition = new AtomicLong[queueSize];
 
-
-    private Random rand = new Random();
-
-    private static Comparator<Message> comparator = (o1, o2) -> (int) (o1.getT() - o2.getT());
-
-    /*DefaultMessageStoreImpl() {
-        for(int i = 0;i<queueSize;i++) {
-            RandomAccessFile memoryMappedFile = null;
-            try {
-                memoryMappedFile = new RandomAccessFile(dir + "queue"+ i + ".data", "rw");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            channels[i] = memoryMappedFile.getChannel();
-            writePosition[i] = new AtomicLong(0);
-        }
-    }*/
-
-
-
-/*    @Override
-    public void put(Message message) {
-        int queueNumber = Math.abs(Thread.currentThread().getName().hashCode()) % queueSize;
-        String queueName = "queue" + queueNumber;
-        Queue queue = queueMaps.get(queueName);
-        if (queue == null) {
-            synchronized (this) {
-                queue = queueMaps.get(queueName);
-                if (queue == null) {
-                    queue = new Queue(channels[queueNumber], writePosition[queueNumber], queueName);
-                    queueMaps.put(queueName, queue);
-                }
-            }
-        }
-        queue.put(message);
-    }*/
+    private Random rand = new Random();*/
 
     @Override
     public void put(Message message) {
@@ -111,7 +77,38 @@ public class DefaultMessageStoreImpl extends MessageStore {
 
 
 
-/*    @Override
+/*
+    DefaultMessageStoreImpl() {
+        for(int i = 0;i<queueSize;i++) {
+            RandomAccessFile memoryMappedFile = null;
+            try {
+                memoryMappedFile = new RandomAccessFile(dir + "queue"+ i + ".data", "rw");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            channels[i] = memoryMappedFile.getChannel();
+            writePosition[i] = new AtomicLong(0);
+        }
+    }
+
+    @Override
+    public void put(Message message) {
+        int queueNumber = Math.abs(Thread.currentThread().getName().hashCode()) % queueSize;
+        String queueName = "queue" + queueNumber;
+        Queue queue = queueMaps.get(queueName);
+        if (queue == null) {
+            synchronized (this) {
+                queue = queueMaps.get(queueName);
+                if (queue == null) {
+                    queue = new Queue(channels[queueNumber], writePosition[queueNumber], queueName);
+                    queueMaps.put(queueName, queue);
+                }
+            }
+        }
+        queue.put(message);
+    }
+
+    @Override
     public List<Message> getMessage(long aMin, long aMax, long tMin, long tMax) {
         List<Message> res = new ArrayList<>();
         *//*

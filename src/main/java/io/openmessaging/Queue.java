@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.*;
@@ -24,7 +25,7 @@ public class Queue {
     public final static int FLUSH_MESSAGE_NUMBER = 1300;//65000(50*1300)
 
     //每个读写缓冲区的延迟消息个数
-    public final static int DELAY_NUMBER = 1000;//非常重要，用于保证每个块间的延迟性;
+    public final static int DELAY_NUMBER = 0;//非常重要，用于保证每个块间的延迟性;
 
     private static Comparator<Message> comparator = (o1, o2) -> (int) (o1.getT() - o2.getT());
 
@@ -35,8 +36,6 @@ public class Queue {
     private   ByteBuffer readBuffer = ByteBuffer.allocateDirect(MESSAGE_SIZE * FLUSH_MESSAGE_NUMBER);
 
     private java.util.Queue<Message> messageBuffer = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
-
-    private static java.util.Queue<Message> delayBuffer = new PriorityBlockingQueue<Message>(MESSAGE_NUMBER + DELAY_NUMBER, comparator);
 
     //上一个块的最大值，判断是否仍然存在延迟数据
     private long lastBlockTmax;
@@ -64,6 +63,7 @@ public class Queue {
         this.writePosition = writePosition;
         this.queueName = queueName;
         this.lastBlockTmax = 0;
+        this.flushFuture = null;
     }
 
     private boolean thisBlockFisrtPut = true;
@@ -74,12 +74,11 @@ public class Queue {
     public void put(Message message) {
         if(thisBlockFisrtPut){
             currentBlock = new BlockInfo();
-            currentBlock.setTmin(segmentStartT);
-            currentBlock.setTmax(segmentEndT);
+            currentBlock.setTmin(Long.MAX_VALUE);
+            currentBlock.setTmax(Long.MIN_VALUE);
             currentBlock.setQueueName(queueName);
             blocks.add(currentBlock);
             thisBlockFisrtPut = false;
-            //System.out.println(queueName + " block " + (blocks.size()) + " put begin" );
         }
         else if (messageBuffer.size() == (MESSAGE_NUMBER + DELAY_NUMBER)) {
             flush();
@@ -91,11 +90,22 @@ public class Queue {
         messageBuffer.add(message);
     }
 
-
-    private long segmentStartT = 0;
-    private long segmentEndT = 0;
     //将队列中20条数据刷到64k的buffer中，做异步flush操作
     private void flush() {
+        //起异步任务获取上一个块的偏移量
+        if (flushFuture != null) {
+            try {
+                long writeLength = flushFuture.get();
+                if(writeLength != -1)
+                    //currentBlock.setStartOffset(writePosition.get() - writeLength);
+                    blocks.get(blocks.size()-2).setStartOffset(writePosition.get() - writeLength);
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+            flushFuture = null;
+        }
+        long segmentStartT = 0;
+        long segmentEndT = 0;
         for (int i = 0; i < MESSAGE_NUMBER; i++) {
             Message message = messageBuffer.poll();
             writeBuffer.putLong(message.getT());
@@ -108,8 +118,45 @@ public class Queue {
                 segmentEndT = message.getT();
             }
         }
+        writeBuffer.flip();
+        flushBuffer.put(writeBuffer);
+        writeBuffer.clear();
 
-        flushFuture = flushThread.submit(() -> {
+        currentBlock.setTmin(Math.min(segmentStartT,currentBlock.getTmin()));
+        currentBlock.setTmax(Math.max(segmentEndT,currentBlock.getTmax()));
+
+        if (flushBuffer.remaining() < MESSAGE_SIZE * MESSAGE_NUMBER) {
+
+            thisBlockFisrtPut = true;
+
+            flushFuture = flushThread.submit(() -> {
+                long writeLength = -1L;
+                //lastBlockTmax = currentBlock.getTmax();
+                flushBuffer.flip();
+                try {
+                    writeLength = channel.write(flushBuffer);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                this.writePosition.getAndAdd(writeLength);
+                flushBuffer.clear();
+
+                return writeLength;
+            });
+/*            if (flushFuture != null) {
+                try {
+                    long writeLength = flushFuture.get();
+                    if(writeLength != -1)
+                        currentBlock.setStartOffset(writePosition.get() - writeLength);
+                        //blocks.get(blocks.size()-2).setStartOffset(writePosition.get() - writeLength);
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+                flushFuture = null;
+            }*/
+        }
+
+/*        flushFuture = flushThread.submit(() -> {
             long writePosition = -1L;
             try {
                 if (flushBuffer.remaining() < MESSAGE_SIZE * MESSAGE_NUMBER) {
@@ -140,18 +187,10 @@ public class Queue {
                 e.printStackTrace();
             }
             return writePosition;
-        });
-        //起异步任务获取上一个块的偏移量
-        if (flushFuture != null) {
-            try {
-                long currentBlockIndex = flushFuture.get();
-                if(currentBlockIndex != -1)
-                    currentBlock.setStartOffset(currentBlockIndex);
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-            flushFuture = null;
-        }
+        });*/
+
+     /*   this.writePosition.getAndAdd(MESSAGE_SIZE * FLUSH_MESSAGE_NUMBER);
+        currentBlock.setStartOffset(this.writePosition.longValue());*/
     }
 
     Lock queueLock = new ReentrantLock();

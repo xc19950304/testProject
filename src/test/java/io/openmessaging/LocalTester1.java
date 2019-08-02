@@ -122,8 +122,9 @@ public class LocalTester1 {
 
         @Override
         public void run() {
-            long count;
-            while ( (count = counter.getAndIncrement()) < maxMsgNum && System.currentTimeMillis() <= maxTimeStamp) {
+            long count = 0;
+            while ( count < maxMsgNum && System.currentTimeMillis() <= maxTimeStamp) {
+                count = counter.getAndIncrement();
                 try {
                     ByteBuffer buffer = ByteBuffer.allocate(34);
                     buffer.putLong(0, count);
@@ -209,7 +210,7 @@ public class LocalTester1 {
                         Message msg = iter.next();
                         if (msg.getA() != msg.getT() || msg.getA() != index1 ||
                                 ByteBuffer.wrap(msg.getBody()).getLong() != index1) {
-                            System.out.println(Thread.currentThread().getName() + " t:" + msg.getT() + "  index1:" + index1);
+                            System.out.println(Thread.currentThread().getName() + " t-ji:" + msg.getT() + "  index1:" + index1);
                             checkError();
                         }
 
@@ -225,7 +226,7 @@ public class LocalTester1 {
 
                                     if (msg.getA() != msg.getT() || msg.getA() != index1
                                             || ByteBuffer.wrap(msg.getBody()).getLong() != index1) {
-                                        System.out.println(Thread.currentThread().getName() + " t:" + msg.getT() + " index1:" + index1);
+                                        System.out.println(Thread.currentThread().getName() + " t-ji:" + msg.getT() + " index1:" + index1);
                                         checkError();
                                     }
                                 }
