@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e46743d9-83e6-42d5-a736-4ce851bf3dbf" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/BlockInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/BlockInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/openmessaging/BlockInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/openmessaging/BlockInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/openmessaging/DefaultMessageStoreImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/openmessaging/DefaultMessageStoreImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/openmessaging/Queue.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/openmessaging/Queue.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DefaultMessageStoreImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DefaultMessageStoreImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="65" column="10" selection-start-line="65" selection-start-column="10" selection-end-line="65" selection-end-column="10" />
+            <state relative-caret-position="852">
+              <caret line="64" column="13" lean-forward="true" selection-start-line="64" selection-start-column="13" selection-end-line="64" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -36,12 +31,13 @@
       <file leaf-file-name="Queue.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="378" column="23" selection-start-line="378" selection-start-column="20" selection-end-line="378" selection-end-column="23" />
+            <state relative-caret-position="339">
+              <caret line="426" column="8" selection-start-line="426" selection-start-column="8" selection-end-line="426" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1092#1101#0" expanded="true" />
                 <element signature="e#1630#1641#0" expanded="true" />
+                <element signature="method#getMessage#0;class#Queue#0" />
                 <element signature="e#6598#6607#0" expanded="true" />
                 <element signature="e#11798#11807#0" expanded="true" />
               </folding>
@@ -73,7 +69,7 @@
       <file leaf-file-name="BlockInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/BlockInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-485">
+            <state relative-caret-position="75">
               <caret line="5" column="22" lean-forward="true" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
               <folding>
                 <element signature="e#418#419#0" expanded="true" />
@@ -97,6 +93,15 @@
                 <element signature="e#1375#1376#0" expanded="true" />
                 <element signature="e#1407#1408#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="2" selection-start-line="9" selection-end-line="11" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -139,8 +144,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>950502</find>
-      <find>994386</find>
       <find>-------------</find>
       <find>972619</find>
       <find>972618</find>
@@ -169,6 +172,8 @@
       <find>sumA</find>
       <find>currentBlock</find>
       <find>segmentEndA</find>
+      <find>javafx.util</find>
+      <find>sumjavafx.util</find>
     </findStrings>
     <replaceStrings>
       <replace>queue1</replace>
@@ -192,10 +197,10 @@
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/QueueCodeUtil.java" />
         <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester1.java" />
         <option value="$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester.java" />
-        <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/BlockInfo.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java" />
       </list>
     </option>
   </component>
@@ -252,27 +257,6 @@
               <item name="mqrace2019" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="openmessaging" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="race2019" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mqrace2019" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="race2019" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mqrace2019" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="race2019" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mqrace2019" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="openmessaging" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -560,13 +544,13 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5007153" side_tool="true" weight="0.2657143" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49928468" visible="true" weight="0.26" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.21857142" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" weight="0.40142858" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.21857142" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8030888" visible="true" weight="0.25894135" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.80255944" visible="true" weight="0.31330472" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32857144" />
-      <window_info id="Structure" order="1" sideWeight="0.1969112" side_tool="true" visible="true" weight="0.25894135" />
+      <window_info id="Structure" order="1" sideWeight="0.19744058" side_tool="true" visible="true" weight="0.31330472" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
@@ -630,7 +614,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java</url>
-          <line>122</line>
+          <line>123</line>
           <properties />
           <option name="timeStamp" value="144" />
         </line-breakpoint>
@@ -912,13 +896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="7" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/io/openmessaging/LocalTester.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
@@ -959,7 +936,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/BlockInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-485">
+        <state relative-caret-position="75">
           <caret line="5" column="22" lean-forward="true" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
           <folding>
             <element signature="e#418#419#0" expanded="true" />
@@ -988,12 +965,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="378" column="23" selection-start-line="378" selection-start-column="20" selection-end-line="378" selection-end-column="23" />
+        <state relative-caret-position="339">
+          <caret line="426" column="8" selection-start-line="426" selection-start-column="8" selection-end-line="426" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1092#1101#0" expanded="true" />
             <element signature="e#1630#1641#0" expanded="true" />
+            <element signature="method#getMessage#0;class#Queue#0" />
             <element signature="e#6598#6607#0" expanded="true" />
             <element signature="e#11798#11807#0" expanded="true" />
           </folding>
@@ -1002,11 +980,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="65" column="10" selection-start-line="65" selection-start-column="10" selection-end-line="65" selection-end-column="10" />
+        <state relative-caret-position="852">
+          <caret line="64" column="13" lean-forward="true" selection-start-line="64" selection-start-column="13" selection-end-line="64" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="2" selection-start-line="9" selection-end-line="11" selection-end-column="58" />
         </state>
       </provider>
     </entry>

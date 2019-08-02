@@ -301,10 +301,11 @@ public class Queue {
     }
 
 
-    public Pair<Long,Long> getAvgMessage(long aMin, long aMax, long tMin, long tMax) {
+    public long[] getAvgMessage(long aMin, long aMax, long tMin, long tMax) {
 
         queueLock.lock();
 
+        long[] result = new long[2];
         long sum = 0;
         long length = 0;
 
@@ -421,8 +422,11 @@ public class Queue {
                 }*/
             }
         }
+        result[0] = sum;
+        result[1] = length;
 
         queueLock.unlock();
-        return new Pair(sum,length);
+
+        return result;
     }
 }

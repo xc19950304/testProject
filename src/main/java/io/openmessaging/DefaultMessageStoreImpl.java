@@ -67,9 +67,9 @@ public class DefaultMessageStoreImpl extends MessageStore {
         long sum = 0;
         long count = 0;
         for (Map.Entry<String, Queue> entry : queueMaps.entrySet()) {
-            Pair<Long, Long> pair = entry.getValue().getAvgMessage(aMin, aMax, tMin, tMax);
-            sum += pair.getKey();
-            count += pair.getValue();
+            long[] pair = entry.getValue().getAvgMessage(aMin, aMax, tMin, tMax);
+            sum += pair[0];
+            count += pair[1];
         }
         return count == 0 ? 0 : sum / count;
     }
