@@ -22,7 +22,7 @@ public class Queue {
     public final static int MESSAGE_NUMBER = 100;
 
     //Block对应的消息总数
-    public final static int FLUSH_MESSAGE_NUMBER = 1300;//65000(50*1300)
+    public final static int FLUSH_MESSAGE_NUMBER = 1300 * 2;//65000(50*1300)
 
     //每个读写缓冲区的延迟消息个数
     public final static int DELAY_NUMBER = 0;//非常重要，用于保证每个块间的延迟性;
