@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e46743d9-83e6-42d5-a736-4ce851bf3dbf" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java" afterDir="false" />
-    </list>
+    <list default="true" id="e46743d9-83e6-42d5-a736-4ce851bf3dbf" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +15,8 @@
       <file leaf-file-name="DefaultMessageStoreImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="852">
-              <caret line="64" column="13" lean-forward="true" selection-start-line="64" selection-start-column="13" selection-end-line="64" selection-end-column="13" />
+            <state relative-caret-position="468">
+              <caret line="219" column="2" lean-forward="true" selection-start-line="219" selection-start-column="2" selection-end-line="219" selection-end-column="2" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -32,7 +28,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="339">
-              <caret line="426" column="8" selection-start-line="426" selection-start-column="8" selection-end-line="426" selection-end-column="8" />
+              <caret line="426" selection-start-line="426" selection-end-line="426" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1092#1101#0" expanded="true" />
@@ -101,7 +97,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
-              <caret line="9" column="2" selection-start-line="9" selection-end-line="11" selection-end-column="58" />
+              <caret line="9" selection-start-line="9" selection-end-line="11" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -533,7 +529,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -544,13 +539,13 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5007153" side_tool="true" weight="0.2657143" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" weight="0.40142858" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.21857142" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" weight="0.5642857" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.18" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.80255944" visible="true" weight="0.31330472" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8031359" visible="true" weight="0.31330472" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32857144" />
-      <window_info id="Structure" order="1" sideWeight="0.19744058" side_tool="true" visible="true" weight="0.31330472" />
+      <window_info id="Structure" order="1" sideWeight="0.19686411" side_tool="true" visible="true" weight="0.31330472" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
@@ -966,7 +961,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Queue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="339">
-          <caret line="426" column="8" selection-start-line="426" selection-start-column="8" selection-end-line="426" selection-end-column="8" />
+          <caret line="426" selection-start-line="426" selection-end-line="426" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1092#1101#0" expanded="true" />
@@ -980,8 +975,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/DefaultMessageStoreImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="852">
-          <caret line="64" column="13" lean-forward="true" selection-start-line="64" selection-start-column="13" selection-end-line="64" selection-end-column="13" />
+        <state relative-caret-position="468">
+          <caret line="219" column="2" lean-forward="true" selection-start-line="219" selection-start-column="2" selection-end-line="219" selection-end-column="2" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -991,7 +986,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/io/openmessaging/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="9" column="2" selection-start-line="9" selection-end-line="11" selection-end-column="58" />
+          <caret line="9" selection-start-line="9" selection-end-line="11" selection-end-column="56" />
         </state>
       </provider>
     </entry>

@@ -1,7 +1,5 @@
 package io.openmessaging;
 
-import javafx.util.Pair;
-
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
