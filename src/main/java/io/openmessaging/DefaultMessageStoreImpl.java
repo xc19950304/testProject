@@ -1,5 +1,7 @@
 package io.openmessaging;
 
+import javafx.util.Pair;
+
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
@@ -65,15 +67,62 @@ public class DefaultMessageStoreImpl extends MessageStore {
         long sum = 0;
         long count = 0;
         for (Map.Entry<String, Queue> entry : queueMaps.entrySet()) {
-            List<Message> messageList = entry.getValue().getMessage(aMin, aMax, tMin, tMax);
-            int size = messageList.size();
-            for (int j = 0; j < size; j++) {
-                sum += messageList.get(j).getA();
-            }
-            count += size;
+            Pair<Long, Long> pair = entry.getValue().getAvgMessage(aMin, aMax, tMin, tMax);
+            sum += pair.getKey();
+            count += pair.getValue();
         }
         return count == 0 ? 0 : sum / count;
     }
+
+/*
+    @Override
+    public synchronized long getAvgValue(long aMin, long aMax, long tMin, long tMax) {
+        long sum = 0;
+        long count = 0;
+
+        System.out.println("---------磁盘IO查询----------------");
+        for (Map.Entry<String, Queue> entry : queueMaps.entrySet()) {
+            long tempsum = 0;
+            long tempcount = 0;
+            List<Message> messageList = entry.getValue().getMessage(aMin, aMax, tMin, tMax);
+            int size = messageList.size();
+            for (int j = 0; j < size; j++) {
+                tempsum += messageList.get(j).getA();
+            }
+            tempcount = size;
+
+            sum += tempsum;
+            count += tempcount;
+
+            System.out.println(tempsum + "," + tempcount);
+
+        }
+
+        System.out.println("-----------内存查询--------------");
+
+        long sum2 = 0;
+        long count2 = 0;
+        int tag = 0;
+        for (Map.Entry<String, Queue> entry : queueMaps.entrySet()) {
+            long tempsum = 0;
+            long tempcount = 0;
+            Pair<Long,Long> pair = entry.getValue().getAvgMessage(aMin, aMax, tMin, tMax);
+            tempsum = pair.getKey();
+            tempcount = pair.getValue();
+
+            tag++;
+
+
+            sum2 += tempsum;
+            count2 += tempcount;
+
+            System.out.println(tempsum + "," + tempcount);
+        }
+        System.out.println("-----------总体测评参数--------------");
+        System.out.println(sum + "," + count + " : " +sum2 + "," + count2 + " tag:"+ tag);
+        System.out.println("-----------------------------------");
+        return count == 0 ? 0 : sum2 / count2;
+    }*/
 
 
 
