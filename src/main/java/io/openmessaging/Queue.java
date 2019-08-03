@@ -29,7 +29,7 @@ public class Queue {
 
 
     //写缓冲区
-    private   ByteBuffer writeBuffer = ByteBuffer.allocateDirect(MESSAGE_SIZE * MESSAGE_NUMBER);
+    //private   ByteBuffer writeBuffer = ByteBuffer.allocateDirect(MESSAGE_SIZE * MESSAGE_NUMBER);
 
     private   ByteBuffer readBuffer = ByteBuffer.allocateDirect(MESSAGE_SIZE * FLUSH_MESSAGE_NUMBER);
 
@@ -115,9 +115,9 @@ public class Queue {
 
             long a = message.getA();
             currentBlock.addSum(a);
-            writeBuffer.putLong(message.getT());
-            writeBuffer.putLong(a);
-            writeBuffer.put(message.getBody());
+            flushBuffer.putLong(message.getT());
+            flushBuffer.putLong(a);
+            flushBuffer.put(message.getBody());
             if (i == 0 ) {
                 segmentStartT = message.getT();
             }
@@ -128,9 +128,6 @@ public class Queue {
             segmentStartA = Math.min(a,segmentStartA);
             segmentEndA = Math.max(a,segmentEndA);
         }
-        writeBuffer.flip();
-        flushBuffer.put(writeBuffer);
-        writeBuffer.clear();
 
         currentBlock.setTmin(Math.min(segmentStartT,currentBlock.getTmin()));
         currentBlock.setTmax(Math.max(segmentEndT,currentBlock.getTmax()));
@@ -158,54 +155,7 @@ public class Queue {
 
                 return writeLength;
             });
-/*            if (flushFuture != null) {
-                try {
-                    long writeLength = flushFuture.get();
-                    if(writeLength != -1)
-                        currentBlock.setStartOffset(writePosition.get() - writeLength);
-                        //blocks.get(blocks.size()-2).setStartOffset(writePosition.get() - writeLength);
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-                flushFuture = null;
-            }*/
         }
-
-/*        flushFuture = flushThread.submit(() -> {
-            long writePosition = -1L;
-            try {
-                if (flushBuffer.remaining() < MESSAGE_SIZE * MESSAGE_NUMBER) {
-
-                    lastBlockTmax = currentBlock.getTmax();
-                    flushBuffer.flip();
-                    writePosition = this.writePosition.get();//获取刷块时的物理地址
-                    channel.write(flushBuffer);
-                    this.writePosition.getAndAdd(MESSAGE_SIZE * FLUSH_MESSAGE_NUMBER);
-                    flushBuffer.clear();
-
-                    thisBlockFisrtPut = true;
-
-                    //System.out.println(" tmin：" + currentBlock.getTmin() + " tmax：" + currentBlock.getTmax() );
-                    //System.out.println("----------flush To Dist------------blockIndex:"+blockIndex + queueName);
-                    //System.out.println("----------flush To Dist------------writePosition:"+writePosition+ queueName);
-                }
-                else {
-                    currentBlock.setTmin(Math.min(segmentStartT,currentBlock.getTmin()));
-                    currentBlock.setTmax(Math.max(segmentEndT,currentBlock.getTmax()));
-                }
-
-                writeBuffer.flip();
-                flushBuffer.put(writeBuffer);
-                writeBuffer.clear();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return writePosition;
-        });*/
-
-     /*   this.writePosition.getAndAdd(MESSAGE_SIZE * FLUSH_MESSAGE_NUMBER);
-        currentBlock.setStartOffset(this.writePosition.longValue());*/
     }
 
     Lock queueLock = new ReentrantLock();
