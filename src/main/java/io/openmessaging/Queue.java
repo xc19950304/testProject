@@ -142,11 +142,9 @@ public class Queue {
         if (flushBuffer.remaining() < MESSAGE_SIZE * MESSAGE_NUMBER) {
 
             thisBlockFisrtPut = true;
-            //currentBlock.setSum(sumA);
 
             flushFuture = flushThread.submit(() -> {
                 long writeLength = -1L;
-                //lastBlockTmax = currentBlock.getTmax();
                 flushBuffer.flip();
                 try {
                     writeLength = channel.write(flushBuffer);
@@ -305,6 +303,7 @@ public class Queue {
             //边界Block数据 和 部分乱序的Block块的边界值刚好在查询的边界上 特殊处理
             if((tMin >= blockTmin && tMin<=blockTmax)|| (tMax >= blockTmin && tMax <=blockTmax)
             /*|| (aMin >= blockAmin && aMin<=blockAmax)|| (aMax >= blockAmin && aMax <=blockAmax) */ ){
+                System.out.println( queueName + " " + Thread.currentThread().getName() + " read disk1：" + "..."+j);
                 readBuffer.clear();
                 try {
                     channel.read(readBuffer, blocks.get(j).getStartOffset());
@@ -326,11 +325,13 @@ public class Queue {
 
             else {
                 if(blockAmin >= aMin && blockAmax <= aMax) {
+                    System.out.println(queueName + " " + Thread.currentThread().getName()+  " read memory："  + "..." + j);
                     sum += blocks.get(j).getSum();
                     length += FLUSH_MESSAGE_NUMBER;
                 }
                 else
                 {
+                    System.out.println(queueName + " " + Thread.currentThread().getName()+  " read disk2："  + "..." + j);
                     readBuffer.clear();
                     try {
                         channel.read(readBuffer, blocks.get(j).getStartOffset());
