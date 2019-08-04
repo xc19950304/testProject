@@ -1,4 +1,6 @@
-package io.openmessaging;
+package io.openmessaging.utils;
+
+import io.openmessaging.Constants;
 
 public class QueueCodeUtil {
     //7 12

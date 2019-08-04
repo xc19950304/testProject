@@ -1,5 +1,8 @@
 package io.openmessaging;
 
+import io.openmessaging.object.Block;
+import io.openmessaging.object.Page;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -46,9 +49,9 @@ public class Queue {
     //记录当前操作块的物理偏移
     private AtomicLong writePosition;
 
-    private ArrayList<BlockInfo> blocks = new ArrayList<BlockInfo>();
+    private ArrayList<Block> blocks = new ArrayList<Block>();
 
-    private BlockInfo currentBlock;
+    private Block currentBlock;
 
     private Future<Long> flushFuture;
 
@@ -71,13 +74,8 @@ public class Queue {
     //同一时刻一个Queue的put和flush串行执行
     public void put(Message message) {
         if(thisBlockFisrtPut){
-            currentBlock = new BlockInfo();
-            currentBlock.setTmin(Long.MAX_VALUE);
-            currentBlock.setTmax(Long.MIN_VALUE);
-            currentBlock.setAmin(Long.MAX_VALUE);
-            currentBlock.setAmax(Long.MIN_VALUE);
+            currentBlock = new Block(Long.MAX_VALUE,Long.MIN_VALUE,Long.MAX_VALUE,Long.MIN_VALUE);
             currentBlock.setQueueName(queueName);
-            currentBlock.setSum(0);
             blocks.add(currentBlock);
             thisBlockFisrtPut = false;
         }
@@ -110,11 +108,13 @@ public class Queue {
         long segmentEndT = 0;
         long segmentStartA = Long.MAX_VALUE;
         long segmentEndA = Long.MIN_VALUE;
+        long currentPageSumA = 0;
+
         for (int i = 0; i < MESSAGE_NUMBER; i++) {
             Message message = messageBuffer.poll();
 
             long a = message.getA();
-            currentBlock.addSum(a);
+            currentPageSumA += a;
             flushBuffer.putLong(message.getT());
             flushBuffer.putLong(a);
             flushBuffer.put(message.getBody());
@@ -129,11 +129,14 @@ public class Queue {
             segmentEndA = Math.max(a,segmentEndA);
         }
 
+        //Page page = new Page(segmentStartT,segmentEndT,segmentStartA,segmentEndA,currentPageSumA);
+
         currentBlock.setTmin(Math.min(segmentStartT,currentBlock.getTmin()));
         currentBlock.setTmax(Math.max(segmentEndT,currentBlock.getTmax()));
-
         currentBlock.setAmin(Math.min(segmentStartA,currentBlock.getAmin()));
         currentBlock.setAmax(Math.max(segmentEndA,currentBlock.getAmax()));
+        currentBlock.addSum(currentPageSumA);
+        //currentBlock.addPage(page);
 
 
         if (flushBuffer.remaining() < MESSAGE_SIZE * MESSAGE_NUMBER) {
@@ -268,7 +271,6 @@ public class Queue {
                 long t = flushBuffer.getLong();
                 long a = flushBuffer.getLong();
                 flushBuffer.get(body);
-                Message msg = new Message(a, t, body);
                 if (t >= tMin && t <= tMax && a >= aMin && a <= aMax) {
                     sum += a;
                     length ++;
@@ -315,13 +317,13 @@ public class Queue {
                     long t = readBuffer.getLong();
                     long a = readBuffer.getLong();
                     readBuffer.get(body);
-                    Message msg = new Message(a, t, body);
                     if (t >= tMin && t <= tMax && a >= aMin && a <= aMax) {
                         sum += a;
                         length ++;
                     }
                 }
             }
+
             else {
                 if(blockAmin >= aMin && blockAmax <= aMax) {
                     sum += blocks.get(j).getSum();
@@ -341,32 +343,12 @@ public class Queue {
                         long t = readBuffer.getLong();
                         long a = readBuffer.getLong();
                         readBuffer.get(body);
-                        Message msg = new Message(a, t, body);
-                        if (t >= tMin && t <= tMax && a >= aMin && a <= aMax) {
+                        if (a >= aMin && a <= aMax) {
                             sum += a;
                             length ++;
                         }
                     }
                 }
-
-/*                readBuffer.clear();
-                try {
-                    channel.read(readBuffer, blocks.get(j).getStartOffset());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                readBuffer.flip();
-                for (int i = 0; i < FLUSH_MESSAGE_NUMBER; i++) {
-                    byte[] body = new byte[MESSAGE_SIZE - 8 - 8];
-                    long t = readBuffer.getLong();
-                    long a = readBuffer.getLong();
-                    readBuffer.get(body);
-                    Message msg = new Message(a, t, body);
-                    if (a >= aMin && a <= aMax) {
-                        sum += a;
-                        length ++;
-                    }
-                }*/
             }
         }
         result[0] = sum;

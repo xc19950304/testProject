@@ -1,15 +1,34 @@
-package io.openmessaging;
+package io.openmessaging.object;
 
-public class BlockInfo {
+import java.util.ArrayList;
+
+public class Block {
     private long startOffset;
     private long tmin;
     private long tmax;
     private long amin;
     private long amax;
 
-    private int length;
     private long sum;
     private String queueName;
+
+    private ArrayList<Page> pageList;
+
+    public Block()
+    {
+        pageList= new ArrayList<>();
+        this.sum = 0;
+    }
+
+    public Block(long tmin, long tmax, long amin, long amax)
+    {
+        this.tmin = tmin;
+        this.tmax = tmax;
+        this.amin = amin;
+        this.amax = amax;
+        this.sum = 0;
+        pageList= new ArrayList<>();
+    }
 
     public long getStartOffset() {
         return startOffset;
@@ -43,14 +62,6 @@ public class BlockInfo {
         this.queueName = queueName;
     }
 
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
     public long getSum() {
         return sum;
     }
@@ -60,7 +71,7 @@ public class BlockInfo {
     }
 
     public void addSum(long sum) {
-        this.sum +=sum;
+        this.sum += sum;
     }
 
     public long getAmin() {
@@ -77,5 +88,18 @@ public class BlockInfo {
 
     public void setAmax(long amax) {
         this.amax = amax;
+    }
+
+    public ArrayList<Page> getPageList() {
+        return pageList;
+    }
+
+    public void setPageList(ArrayList<Page> pageList) {
+        this.pageList = pageList;
+    }
+
+    public void addPage(Page page)
+    {
+        pageList.add(page);
     }
 }

@@ -1,10 +1,12 @@
-package io.openmessaging;
+package io.openmessaging.utils;
+
+import io.openmessaging.object.Block;
 
 import java.util.ArrayList;
 
 public class SearchUtil {
 
-    public static int binSearch(ArrayList<BlockInfo> blocks, int size, long tKey) {
+    public static int binSearch(ArrayList<Block> blocks, int size, long tKey) {
         int mid = 0;
         int start = 0;
         int end = size - 1;

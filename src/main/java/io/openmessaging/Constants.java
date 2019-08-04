@@ -10,4 +10,6 @@ public class Constants {
     public final static String DIR = "/alidata1/race2019/data/";
 
     public final static Integer THREAD_CODE_NUMBER = 12;
+
+    public final static Integer PAGE_NUM_PER_BLOCK = 13;
 }

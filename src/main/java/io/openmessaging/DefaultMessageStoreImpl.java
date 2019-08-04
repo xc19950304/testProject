@@ -1,5 +1,7 @@
 package io.openmessaging;
 
+import io.openmessaging.utils.QueueCodeUtil;
+
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
